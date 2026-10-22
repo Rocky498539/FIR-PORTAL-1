@@ -1163,6 +1163,57 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, [tabindex]
 .cd-blank{color:var(--slate-550); letter-spacing:.06em;}
 .cd-note{margin:12px 0 0; font-size:13px; color:var(--amber-ent-700);}
 @media (max-width:760px){ .cd-row{grid-template-columns:minmax(0,1fr);} .cd-page{padding:24px 20px;} }
+
+/* ---------------- FIR / NCR classification ----------------
+   Layering: the top bar (with the language toggle) sits above everything that scrolls under it,
+   including the sticky form actions (6); menus (30), the mobile nav (40/50) and dialogs (200) stay above it.
+   Nothing on these screens sets its own z-index. */
+.topbar{z-index:20;}
+.classify-card{padding:var(--axial-space-24); max-width:860px;}
+.classify-q{margin:0 0 var(--axial-space-20); font-size:var(--axial-font-size-20); font-weight:var(--axial-font-weight-semibold); line-height:var(--axial-line-height-normal); color:var(--axial-text-primary);}
+.classify-choices{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--axial-space-16);}
+.classify-btn{position:relative; display:flex; align-items:flex-start; gap:var(--axial-space-16); min-height:112px; padding:var(--axial-space-20); text-align:left;
+  background:var(--axial-background-primary); border:var(--axial-stroke-regular) solid var(--axial-border-default); border-radius:var(--axial-radius-lg);
+  font-family:var(--axial-font-family); color:var(--axial-text-primary); cursor:pointer; transition:border-color .16s ease, background-color .16s ease;}
+.classify-btn:hover{border-color:var(--axial-interactive-primary); background:var(--axial-background-hover);}
+.classify-btn:active{background:var(--axial-background-selected);}
+.classify-btn.is-suggested{border-color:var(--axial-interactive-accent); background:var(--axial-interactive-accent-subtle);}
+.classify-btn-icon{display:flex; align-items:center; justify-content:center; width:40px; height:40px; flex-shrink:0; border-radius:var(--axial-radius-md); background:var(--axial-surface-brand-subtle); color:var(--axial-text-primary);}
+.classify-btn-text{display:flex; flex-direction:column; gap:var(--axial-space-4); min-width:0;}
+.classify-btn-title{font-size:var(--axial-font-size-18); font-weight:var(--axial-font-weight-semibold); line-height:var(--axial-line-height-normal);}
+.classify-btn-sub{font-size:var(--axial-font-size-14); line-height:var(--axial-line-height-normal); color:var(--axial-text-secondary);}
+.classify-btn-tag{align-self:flex-start; margin-bottom:var(--axial-space-4); background:var(--axial-background-primary);}
+.classify-help{margin-top:var(--axial-space-20);}
+.classify-help-panel{display:flex; flex-direction:column; gap:var(--axial-space-12); padding:var(--axial-space-16); border-radius:var(--axial-radius-md); background:var(--axial-background-secondary);}
+.classify-help-actions{display:flex; flex-wrap:wrap; gap:var(--axial-space-8);}
+.classify-reason{font-weight:var(--axial-font-weight-medium);}
+.classify-officer{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--axial-space-12) var(--axial-space-16); margin-top:var(--axial-space-24); padding-top:var(--axial-space-20); border-top:var(--axial-stroke-thin) solid var(--axial-border-subtle);}
+.classify-officer-note{grid-column:1 / -1; margin:0;}
+.classify-current{display:flex; align-items:center; flex-wrap:wrap; gap:var(--axial-space-12);}
+.classify-current-text{font-size:var(--axial-font-size-16); font-weight:var(--axial-font-weight-medium); color:var(--axial-text-primary);}
+.classify-history{margin-top:var(--axial-space-16);}
+.classify-history ul{margin:var(--axial-space-8) 0 0; padding-left:var(--axial-space-20); font-size:var(--axial-font-size-14); color:var(--axial-text-secondary); line-height:var(--axial-line-height-relaxed);}
+.case-type-row{display:flex; align-items:center; gap:var(--axial-space-12); margin-bottom:var(--axial-space-8);}
+.type-badge{display:inline-flex; align-items:center; height:20px; padding:0 var(--axial-space-8); border-radius:var(--axial-radius-sm); font-size:var(--axial-font-size-11); font-weight:var(--axial-font-weight-semibold); letter-spacing:.02em; line-height:1; flex-shrink:0;}
+.type-badge--fir{background:var(--axial-interactive-accent-subtle); color:var(--axial-text-accent);}
+.type-badge--ncr{background:var(--axial-feedback-warning-bg); color:var(--axial-text-primary);}
+.side-case-title{display:flex; align-items:center; gap:var(--axial-space-8);}
+.side-case-title > span:last-child{overflow:hidden; text-overflow:ellipsis;}
+.case-title{display:flex; align-items:center; gap:var(--axial-space-12); flex-wrap:wrap;}
+.case-title .type-badge{height:24px; font-size:var(--axial-font-size-12);}
+.tag-cog{display:inline-flex; align-items:center; height:20px; margin-left:var(--axial-space-8); padding:0 var(--axial-space-8); border-radius:var(--axial-radius-sm); font-size:var(--axial-font-size-11); font-weight:var(--axial-font-weight-medium); line-height:1; vertical-align:middle; flex-shrink:0;}
+.tag-cog--yes{background:var(--axial-interactive-accent-subtle); color:var(--axial-text-accent);}
+.tag-cog--no{background:var(--axial-feedback-warning-bg); color:var(--axial-text-primary);}
+.prelim-note{display:flex; align-items:flex-start; gap:var(--axial-space-8); margin:0; padding:var(--axial-space-8) var(--axial-space-12); border-radius:var(--axial-radius-md); background:var(--axial-background-secondary); font-size:var(--axial-font-size-12); line-height:var(--axial-line-height-normal); color:var(--axial-text-secondary);}
+.prelim-note .ms{font-size:var(--axial-font-size-16); color:var(--axial-feedback-info);}
+.fir-doc-foot{margin:var(--axial-space-24) 0 0; padding-top:var(--axial-space-12); border-top:var(--axial-stroke-thin) solid var(--axial-border-subtle); font-weight:var(--axial-font-weight-medium);}
+.modal-field{margin-top:var(--axial-space-16);}
+.modal-detail{font-weight:var(--axial-font-weight-medium); color:var(--axial-text-primary);}
+@media (max-width:640px){
+  .classify-choices, .classify-officer{grid-template-columns:minmax(0,1fr);}
+  .classify-btn{min-height:96px;}
+  .classify-card{padding:var(--axial-space-16);}
+}
 </style>
 </head>
 <body>
@@ -1189,51 +1240,63 @@ const CRIME_TAXONOMY = {
 
 // Reference BNS sections. These are a starting point only, the officer must
 // search, review, add or remove sections before confirming (see BNS tab).
+// cognizable: as per the BNSS First Schedule (true = police can register an FIR and investigate;
+//   false = non-cognizable, NCR and referral to the Magistrate; null = follows the main offence it is used with).
+// maxYears: the longest prison term the section allows (99 = life or death). Used only for the optional
+//   BNSS 173(3) preliminary-enquiry note. Entries marked VERIFY are ones to check against the schedule.
 const BNS_LIBRARY = [
-  {code:"303", title:"Theft", desc:"Whoever, intending to take dishonestly any movable property out of the possession of any person without that person's consent, moves that property.", tags:["Theft"]},
-  {code:"303(2)", title:"Theft: punishment (incl. second or subsequent conviction)", desc:"Punishment for theft, with a higher minimum on a second or subsequent conviction.", tags:["Theft"]},
-  {code:"304", title:"Snatching", desc:"Theft committed by suddenly or quickly seizing, grabbing or securing movable property before the person can resist.", tags:["Snatching"]},
-  {code:"305", title:"Theft in dwelling house / of transport / of idol", desc:"Aggravated theft: dwelling house, means of transport, or place of worship.", tags:["Burglary","House Breaking"]},
-  {code:"306", title:"Theft by clerk or servant of property in possession of master", desc:"Aggravated theft by a person in a position of trust.", tags:[]},
-  {code:"308", title:"Extortion", desc:"Intentionally putting a person in fear of injury, dishonestly inducing delivery of property.", tags:["Robbery"]},
-  {code:"309", title:"Robbery", desc:"Theft or extortion committed with force, fear, or threat of instant hurt.", tags:["Robbery"]},
-  {code:"310", title:"Dacoity", desc:"Robbery committed jointly by five or more persons.", tags:["Robbery"]},
-  {code:"310(3)", title:"Dacoity with murder", desc:"Murder committed by any one of five or more persons while jointly committing dacoity.", tags:["Robbery","Murder"]},
-  {code:"311", title:"Robbery or dacoity with attempt to cause death or grievous hurt", desc:"Use of a deadly weapon, or causing/attempting grievous hurt or death, while committing robbery or dacoity.", tags:["Robbery"]},
-  {code:"312", title:"Attempt to commit robbery or dacoity when armed with deadly weapon", desc:"Being armed with a deadly weapon while attempting robbery or dacoity.", tags:["Robbery"]},
-  {code:"331", title:"House-trespass or house-breaking (punishment)", desc:"Punishment for lurking house-trespass or house-breaking; sub-sections cover by day, by night, and with intent to commit an offence.", tags:["House Breaking"]},
-  {code:"331(2)", title:"Lurking house-trespass or house-breaking to commit an offence", desc:"Lurking house-trespass or house-breaking in order to commit an offence punishable with imprisonment (by day).", tags:["Burglary","House Breaking"]},
-  {code:"331(4)", title:"Lurking house-trespass or house-breaking by night to commit an offence", desc:"Lurking house-trespass or house-breaking after sunset and before sunrise, in order to commit an offence punishable with imprisonment.", tags:["Burglary","House Breaking"]},
-  {code:"332", title:"House-trespass in order to commit an offence", desc:"House-trespass in order to commit an offence (for example theft) punishable with imprisonment.", tags:["House Breaking"]},
-  {code:"333", title:"House-trespass after preparation for hurt, assault or wrongful restraint", desc:"House-trespass having made preparation for causing hurt, assault or wrongful restraint to any person.", tags:[]},
-  {code:"334", title:"Dishonestly breaking open receptacle containing property", desc:"Dishonestly breaking open or unfastening a closed receptacle (almirah, safe, box) that contains or is believed to contain property.", tags:[]},
-  {code:"103(1)", title:"Murder", desc:"Culpable homicide amounting to murder.", tags:["Murder"]},
-  {code:"103(2)", title:"Murder by group of five or more", desc:"Murder committed by five or more persons acting in concert on specified grounds.", tags:["Murder"]},
-  {code:"105", title:"Culpable homicide not amounting to murder", desc:"Causing death without the intention/knowledge required for murder.", tags:["Murder","Attempt to Murder"]},
-  {code:"109", title:"Attempt to murder", desc:"Doing an act with the intention or knowledge to cause death, under circumstances that if death were caused it would amount to murder.", tags:["Attempt to Murder"]},
-  {code:"110", title:"Attempt to commit culpable homicide", desc:"Act done with intent/knowledge likely to cause death, not amounting to murder.", tags:["Attempt to Murder","Assault"]},
-  {code:"238", title:"Causing disappearance of evidence / giving false information", desc:"Screening an offender by destroying evidence or giving false information about an offence, applicable in murder cases.", tags:["Murder","Attempt to Murder"]},
-  {code:"3(5)", title:"Common intention", desc:"Where a criminal act is done by several persons in furtherance of the common intention of all, each is liable as if the act were done by them alone. Often invoked alongside murder/robbery charges.", tags:["Murder","Robbery"]},
-  {code:"61(2)", title:"Criminal conspiracy", desc:"Being party to an agreement between two or more persons to commit an offence, applicable where a murder or dacoity is planned.", tags:["Murder","Robbery"]},
-  {code:"115", title:"Voluntarily causing hurt", desc:"Voluntarily causing bodily pain, disease or infirmity to any person.", tags:["Assault"]},
-  {code:"117", title:"Voluntarily causing grievous hurt", desc:"Voluntarily causing hurt that falls within the grievous-hurt definition.", tags:["Assault"]},
-  {code:"131", title:"Assault or criminal force (punishment)", desc:"Punishment for assault or use of criminal force otherwise than on grave provocation.", tags:["Assault"]},
-  {code:"132", title:"Assault or criminal force to deter public servant", desc:"Assault/force used against a public servant discharging duty.", tags:["Assault"]},
-  {code:"133", title:"Assault or criminal force with intent to dishonour", desc:"Assault or use of force otherwise than on grave provocation, intending to dishonour.", tags:["Assault"]},
-  {code:"137", title:"Kidnapping", desc:"Kidnapping from India or from lawful guardianship.", tags:["Kidnapping"]},
-  {code:"138", title:"Abduction", desc:"Compelling a person by force, or inducing by deceit, to go from any place.", tags:["Kidnapping"]},
-  {code:"87", title:"Kidnapping or abducting a woman to compel marriage", desc:"Kidnapping or abducting a woman to compel her marriage or to force or seduce her to illicit intercourse.", tags:[]},
-  {code:"140", title:"Kidnapping for ransom / to secure release of prisoner", desc:"Kidnapping or abduction for ransom, or to compel the government/person to act.", tags:["Kidnapping"]},
-  {code:"318(1)-(4)", title:"Cheating", desc:"Deceiving a person to dishonestly induce delivery of property or to do/omit an act.", tags:["Online Fraud","Identity Theft"]},
-  {code:"319(1)", title:"Cheating by personation", desc:"Cheating by pretending to be some other person, or by knowingly personating.", tags:["Online Fraud","Identity Theft","Account Hacking"]},
-  {code:"336", title:"Forgery", desc:"Making a false document or electronic record with intent to cause damage or injury.", tags:["Online Fraud","Identity Theft"]},
-  {code:"340(2)", title:"Using a forged document or electronic record as genuine", desc:"Fraudulently or dishonestly using as genuine a document or electronic record known to be forged.", tags:["Online Fraud"]},
-  {code:"351(1)-(4)", title:"Criminal intimidation", desc:"Threatening a person with injury to deter them or coerce them into acting/omitting an act.", tags:["Cyber Stalking"]},
-  {code:"78", title:"Stalking (incl. by electronic communication)", desc:"Following/contacting or monitoring a person's use of the internet/electronic communication despite disinterest.", tags:["Cyber Stalking"]},
-  {code:"IT Act 66", title:"Computer related offences (IT Act)", desc:"Dishonestly/fraudulently doing an act under Section 43 of the IT Act. Commonly applied to hacking.", tags:["Account Hacking"]},
-  {code:"IT Act 66C", title:"Identity theft (IT Act)", desc:"Fraudulent or dishonest use of another person's electronic signature, password or other unique identification.", tags:["Identity Theft","Account Hacking"]},
-  {code:"IT Act 66D", title:"Cheating by personation using computer resource (IT Act)", desc:"Cheating by personation by means of any communication device or computer resource.", tags:["Online Fraud","Identity Theft"]},
-  {code:"IT Act 66E", title:"Violation of privacy (IT Act)", desc:"Capturing, publishing or transmitting the image of a private area of a person without consent.", tags:["Cyber Stalking"]},
+  {code:"303", title:"Theft", desc:"Whoever, intending to take dishonestly any movable property out of the possession of any person without that person's consent, moves that property.", tags:["Theft"], cognizable:true, maxYears:3},
+  {code:"303(2)", title:"Theft: punishment (incl. second or subsequent conviction)", desc:"Punishment for theft, with a higher minimum on a second or subsequent conviction.", tags:["Theft"], cognizable:true, maxYears:3},
+  {code:"304", title:"Snatching", desc:"Theft committed by suddenly or quickly seizing, grabbing or securing movable property before the person can resist.", tags:["Snatching"], cognizable:true, maxYears:3},
+  {code:"305", title:"Theft in dwelling house / of transport / of idol", desc:"Aggravated theft: dwelling house, means of transport, or place of worship.", tags:["Burglary","House Breaking"], cognizable:true, maxYears:7},
+  {code:"306", title:"Theft by clerk or servant of property in possession of master", desc:"Aggravated theft by a person in a position of trust.", tags:[], cognizable:true, maxYears:7},
+  {code:"308", title:"Extortion", desc:"Intentionally putting a person in fear of injury, dishonestly inducing delivery of property.", tags:["Robbery"], cognizable:true, maxYears:7},
+  {code:"309", title:"Robbery", desc:"Theft or extortion committed with force, fear, or threat of instant hurt.", tags:["Robbery"], cognizable:true, maxYears:10},
+  {code:"310", title:"Dacoity", desc:"Robbery committed jointly by five or more persons.", tags:["Robbery"], cognizable:true, maxYears:99},
+  {code:"310(3)", title:"Dacoity with murder", desc:"Murder committed by any one of five or more persons while jointly committing dacoity.", tags:["Robbery","Murder"], cognizable:true, maxYears:99},
+  {code:"311", title:"Robbery or dacoity with attempt to cause death or grievous hurt", desc:"Use of a deadly weapon, or causing/attempting grievous hurt or death, while committing robbery or dacoity.", tags:["Robbery"], cognizable:true, maxYears:99},
+  {code:"312", title:"Attempt to commit robbery or dacoity when armed with deadly weapon", desc:"Being armed with a deadly weapon while attempting robbery or dacoity.", tags:["Robbery"], cognizable:true, maxYears:99}, // minimum 7 years; no upper limit stated. VERIFY
+  {code:"331", title:"House-trespass or house-breaking (punishment)", desc:"Punishment for lurking house-trespass or house-breaking; sub-sections cover by day, by night, and with intent to commit an offence.", tags:["House Breaking"], cognizable:true, maxYears:10}, // sub-sections run from 2 to 14 years. VERIFY
+  {code:"331(2)", title:"Lurking house-trespass or house-breaking to commit an offence", desc:"Lurking house-trespass or house-breaking in order to commit an offence punishable with imprisonment (by day).", tags:["Burglary","House Breaking"], cognizable:true, maxYears:10}, // 3 years, 10 if the offence is theft. VERIFY
+  {code:"331(4)", title:"Lurking house-trespass or house-breaking by night to commit an offence", desc:"Lurking house-trespass or house-breaking after sunset and before sunrise, in order to commit an offence punishable with imprisonment.", tags:["Burglary","House Breaking"], cognizable:true, maxYears:14},
+  {code:"332", title:"House-trespass in order to commit an offence", desc:"House-trespass in order to commit an offence (for example theft) punishable with imprisonment.", tags:["House Breaking"], cognizable:true, maxYears:10}, // 2 to 10 years by the offence intended. VERIFY
+  {code:"333", title:"House-trespass after preparation for hurt, assault or wrongful restraint", desc:"House-trespass having made preparation for causing hurt, assault or wrongful restraint to any person.", tags:[], cognizable:true, maxYears:7},
+  {code:"334", title:"Dishonestly breaking open receptacle containing property", desc:"Dishonestly breaking open or unfastening a closed receptacle (almirah, safe, box) that contains or is believed to contain property.", tags:[], cognizable:true, maxYears:2},
+  {code:"103(1)", title:"Murder", desc:"Culpable homicide amounting to murder.", tags:["Murder"], cognizable:true, maxYears:99},
+  {code:"103(2)", title:"Murder by group of five or more", desc:"Murder committed by five or more persons acting in concert on specified grounds.", tags:["Murder"], cognizable:true, maxYears:99},
+  {code:"105", title:"Culpable homicide not amounting to murder", desc:"Causing death without the intention/knowledge required for murder.", tags:["Murder","Attempt to Murder"], cognizable:true, maxYears:99},
+  {code:"109", title:"Attempt to murder", desc:"Doing an act with the intention or knowledge to cause death, under circumstances that if death were caused it would amount to murder.", tags:["Attempt to Murder"], cognizable:true, maxYears:99},
+  {code:"110", title:"Attempt to commit culpable homicide", desc:"Act done with intent/knowledge likely to cause death, not amounting to murder.", tags:["Attempt to Murder","Assault"], cognizable:true, maxYears:7}, // 3 years, 7 if hurt is caused
+  {code:"238", title:"Causing disappearance of evidence / giving false information", desc:"Screening an offender by destroying evidence or giving false information about an offence, applicable in murder cases.", tags:["Murder","Attempt to Murder"], cognizable:null, maxYears:7}, // cognizable or not as the main offence is. VERIFY
+  {code:"3(5)", title:"Common intention", desc:"Where a criminal act is done by several persons in furtherance of the common intention of all, each is liable as if the act were done by them alone. Often invoked alongside murder/robbery charges.", tags:["Murder","Robbery"], cognizable:null, maxYears:null}, // not an offence on its own; follows the main offence
+  {code:"61(2)", title:"Criminal conspiracy", desc:"Being party to an agreement between two or more persons to commit an offence, applicable where a murder or dacoity is planned.", tags:["Murder","Robbery"], cognizable:null, maxYears:null}, // follows the offence conspired; 61(2)(b) is non-cognizable. VERIFY
+  {code:"115", title:"Voluntarily causing hurt", desc:"Voluntarily causing bodily pain, disease or infirmity to any person.", tags:["Assault","NCR"], cognizable:false, maxYears:1},
+  {code:"117", title:"Voluntarily causing grievous hurt", desc:"Voluntarily causing hurt that falls within the grievous-hurt definition.", tags:["Assault"], cognizable:true, maxYears:7},
+  {code:"131", title:"Assault or criminal force (punishment)", desc:"Punishment for assault or use of criminal force otherwise than on grave provocation.", tags:["Assault","NCR"], cognizable:false, maxYears:0.25},
+  {code:"132", title:"Assault or criminal force to deter public servant", desc:"Assault/force used against a public servant discharging duty.", tags:["Assault"], cognizable:true, maxYears:2},
+  {code:"133", title:"Assault or criminal force with intent to dishonour", desc:"Assault or use of force otherwise than on grave provocation, intending to dishonour.", tags:["Assault","NCR"], cognizable:false, maxYears:2},
+  {code:"137", title:"Kidnapping", desc:"Kidnapping from India or from lawful guardianship.", tags:["Kidnapping"], cognizable:true, maxYears:7},
+  {code:"138", title:"Abduction", desc:"Compelling a person by force, or inducing by deceit, to go from any place.", tags:["Kidnapping"], cognizable:true, maxYears:null}, // definition only; the punishing sections are cognizable. VERIFY
+  {code:"87", title:"Kidnapping or abducting a woman to compel marriage", desc:"Kidnapping or abducting a woman to compel her marriage or to force or seduce her to illicit intercourse.", tags:[], cognizable:true, maxYears:10},
+  {code:"140", title:"Kidnapping for ransom / to secure release of prisoner", desc:"Kidnapping or abduction for ransom, or to compel the government/person to act.", tags:["Kidnapping"], cognizable:true, maxYears:99},
+  {code:"318(1)-(4)", title:"Cheating", desc:"Deceiving a person to dishonestly induce delivery of property or to do/omit an act.", tags:["Online Fraud","Identity Theft"], cognizable:true, maxYears:7}, // 318(4) is cognizable; 318(2) and 318(3) alone are not. VERIFY
+  {code:"319(1)", title:"Cheating by personation", desc:"Cheating by pretending to be some other person, or by knowingly personating.", tags:["Online Fraud","Identity Theft","Account Hacking"], cognizable:true, maxYears:5},
+  {code:"336", title:"Forgery", desc:"Making a false document or electronic record with intent to cause damage or injury.", tags:["Online Fraud","Identity Theft"], cognizable:false, maxYears:2}, // 336(2) is non-cognizable; 336(3) and 336(4) are cognizable. VERIFY
+  {code:"340(2)", title:"Using a forged document or electronic record as genuine", desc:"Fraudulently or dishonestly using as genuine a document or electronic record known to be forged.", tags:["Online Fraud"], cognizable:null, maxYears:null}, // punished as forgery of that document. VERIFY
+  {code:"351(1)-(4)", title:"Criminal intimidation", desc:"Threatening a person with injury to deter them or coerce them into acting/omitting an act.", tags:["Cyber Stalking"], cognizable:false, maxYears:7}, // some states have notified 351(3) as cognizable. VERIFY
+  {code:"351(2)", title:"Criminal intimidation: punishment", desc:"Threatening a person with injury to their person, reputation or property.", tags:["NCR"], cognizable:false, maxYears:2},
+  {code:"352", title:"Intentional insult with intent to provoke breach of peace", desc:"Intentionally insulting a person, for example with abusive words, knowing it is likely to provoke them to break the peace.", tags:["NCR"], cognizable:false, maxYears:2},
+  {code:"356(2)", title:"Defamation", desc:"Making or publishing an imputation intending to harm, or knowing it will harm, a person's reputation.", tags:["NCR"], cognizable:false, maxYears:2},
+  {code:"324(2)", title:"Mischief", desc:"Causing loss or damage to property, or destroying or changing it so that its value or use is reduced.", tags:["NCR"], cognizable:false, maxYears:0.5}, // when the loss is less than ₹20,000. VERIFY
+  {code:"318(2)", title:"Cheating (simple)", desc:"Cheating, where no property is delivered as a result.", tags:["NCR"], cognizable:false, maxYears:3},
+  {code:"355", title:"Misconduct in public by a drunken person", desc:"Appearing in a public place in a state of intoxication and annoying any person.", tags:["NCR"], cognizable:false, maxYears:0.07},
+  {code:"79", title:"Word, gesture or act intended to insult the modesty of a woman", desc:"Words, sounds, gestures or objects meant to insult the modesty of a woman, or intrude on her privacy.", tags:[], cognizable:true, maxYears:3},
+  {code:"78", title:"Stalking (incl. by electronic communication)", desc:"Following/contacting or monitoring a person's use of the internet/electronic communication despite disinterest.", tags:["Cyber Stalking"], cognizable:true, maxYears:3},
+  // IT Act offences punishable with three years or more are cognizable (IT Act section 77B)
+  {code:"IT Act 66", title:"Computer related offences (IT Act)", desc:"Dishonestly/fraudulently doing an act under Section 43 of the IT Act. Commonly applied to hacking.", tags:["Account Hacking"], cognizable:true, maxYears:3},
+  {code:"IT Act 66C", title:"Identity theft (IT Act)", desc:"Fraudulent or dishonest use of another person's electronic signature, password or other unique identification.", tags:["Identity Theft","Account Hacking"], cognizable:true, maxYears:3},
+  {code:"IT Act 66D", title:"Cheating by personation using computer resource (IT Act)", desc:"Cheating by personation by means of any communication device or computer resource.", tags:["Online Fraud","Identity Theft"], cognizable:true, maxYears:3},
+  {code:"IT Act 66E", title:"Violation of privacy (IT Act)", desc:"Capturing, publishing or transmitting the image of a private area of a person without consent.", tags:["Cyber Stalking"], cognizable:true, maxYears:3},
 ];
 
 /* ---------------- LOCAL CRIME CLASSIFICATION & BNS ENGINE ----------------
@@ -1377,6 +1440,89 @@ function localExtractComplaintFields(text){
   const placeMatch = text.match(/\b(?:on|at|near|in|outside)\s+((?:the\s+)?(?:[A-Z0-9][\w.\-\/]*\s+){0,4}(?:Road|Marg|Market|Bazaar|Bazar|Chowk|Crossing|Nagar|Colony|Mandi|Station|Stand|Park|Street|Gali|Lane|Sector\s+\d+))\b/);
   if(placeMatch) fields.placeOfIncident = placeMatch[1].replace(/^the\s+/i,'');
   return fields;
+}
+
+/* ---------------- COGNIZABLE OR NON-COGNIZABLE ----------------
+   Local keyword engine behind "Not sure? Help me decide" and the check made when a complaint is
+   saved. Each rule is one offence, whether it is cognizable (BNSS First Schedule), the BNS
+   sections it usually means, and the words that point to it. No network call. It only ever
+   suggests: the officer makes the choice. Offence names are lower case because they are read
+   inside a sentence ("Cognizable — snatching is cognizable"). */
+const COGNIZANCE_RULES = [
+  { offence:"murder",            cognizable:true,  sections:["103(1)"], phrases:["murder","killed","dead body","homicide","हत्या"] },
+  { offence:"attempt to murder", cognizable:true,  sections:["109"], phrases:["attempt to murder","attempted murder","tried to kill","जान से मारने की कोशिश"] },
+  { offence:"kidnapping",        cognizable:true,  sections:["137"], phrases:["kidnap","abduct","ransom","अपहरण","अगवा"] },
+  { offence:"robbery",           cognizable:true,  sections:["309"], phrases:["robbery","robbed","looted","knifepoint","knife point","gunpoint","gun point","लूट"] },
+  { offence:"snatching",         cognizable:true,  sections:["304"], phrases:["snatch","छीन","झपट"] },
+  { offence:"burglary",          cognizable:true,  sections:["331(4)"], phrases:["burglary","broke into","broken into","break-in","house breaking","house-breaking","सेंध"] },
+  { offence:"theft",             cognizable:true,  sections:["303(2)"], phrases:["theft","stolen","stole","steal","pickpocket","चोरी","चुरा"] },
+  { offence:"extortion",         cognizable:true,  sections:["308"], phrases:["extortion","extort","रंगदारी"] },
+  { offence:"grievous hurt",     cognizable:true,  sections:["117"], phrases:["grievous","fracture","broken bone","stabbed","acid","गंभीर चोट"] },
+  { offence:"sexual harassment", cognizable:true,  sections:["79"], phrases:["molest","eve teas","eve-teas","sexual harassment","lewd","छेड़छाड़"] },
+  { offence:"dowry harassment",  cognizable:true,  sections:[], phrases:["dowry","दहेज"] },
+  { offence:"stalking",          cognizable:true,  sections:["78"], phrases:["stalk","पीछा करता","पीछा करते"] },
+  { offence:"online fraud",      cognizable:true,  sections:["318(1)-(4)"], phrases:["online fraud","upi","otp","phishing","cheated of","duped","fraud","धोखाधड़ी","ठगी"] },
+  { offence:"account hacking",   cognizable:true,  sections:["IT Act 66"], phrases:["hacked","hacking"] },
+  { offence:"verbal abuse",      cognizable:false, sections:["352"], phrases:["verbal abuse","verbally abused","abused","abusive","abuse","abusing","gaali","insult","गाली","अपमान"] },
+  { offence:"threat",            cognizable:false, sections:["351(2)"], phrases:["threat","intimidat","धमकी"] },
+  { offence:"simple hurt",       cognizable:false, sections:["115"], phrases:["slapped","pushed","scuffle","minor injury","simple hurt","थप्पड़","धक्का"] },
+  { offence:"a quarrel",         cognizable:false, sections:["131"], phrases:["quarrel","fight","altercation","झगड़ा","हाथापाई"] },
+  { offence:"defamation",        cognizable:false, sections:["356(2)"], phrases:["defam","bad name","spreading rumours","spreading rumors","मानहानि","बदनाम"] },
+  { offence:"mischief",          cognizable:false, sections:["324(2)"], phrases:["damaged","mischief","scratched","नुकसान"] },
+  { offence:"drunken misconduct",cognizable:false, sections:["355"], phrases:["drunk","नशे में"] },
+  { offence:"public nuisance",   cognizable:false, sections:[], phrases:["nuisance","loud music","noise"] },
+];
+/* A phrase counts only at the start of a word ("upi" is not inside "cupid"), and not right after a
+   plain negation ("nothing was stolen"). Devanagari has no word boundary in JS regex, so Hindi
+   phrases are a plain substring match. */
+function phraseFound(lower, phrase){
+  const latin = /^[a-z]/.test(phrase);
+  const esc = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp((latin ? '(^|[^a-z])' : '') + esc, 'g');
+  let m;
+  while((m = re.exec(lower))){
+    const before = lower.slice(Math.max(0, m.index - 16), m.index + (m[1]||'').length);
+    if(!/\b(not|no|nothing|never|without)\b[^.,;]*$/.test(before)) return true;
+  }
+  return false;
+}
+function assessCognizance(text){
+  const lower = String(text||'').toLowerCase();
+  const found = lower.trim() ? COGNIZANCE_RULES.filter(r=> r.phrases.some(ph=> phraseFound(lower, ph))) : [];
+  const cog = found.filter(r=>r.cognizable);
+  // BNSS 174(4): when even one offence is cognizable, the whole case is cognizable
+  const verdict = !found.length ? 'unclear' : cog.length ? 'cognizable' : 'non-cognizable';
+  return { verdict, found, cognizable: cog, nonCognizable: found.filter(r=>!r.cognizable), mixed: cog.length>0 && cog.length<found.length };
+}
+/* The one-line reason under a suggestion, built from translated pieces so it follows the language toggle. */
+function cognizanceReasonText(a){
+  if(a.ai) return `${t(a.verdict==='cognizable' ? 'Cognizable' : 'Non-cognizable')} — ${a.reason}`;
+  if(a.verdict==='cognizable'){
+    let s = `${t('Cognizable')} — ${t(a.cognizable[0].offence)} ${t('is cognizable')}`;
+    if(a.mixed) s += `. ${t('When one offence is cognizable, the whole case is cognizable (BNSS 174(4)).')}`;
+    return s;
+  }
+  if(a.verdict==='non-cognizable') return `${t('Non-cognizable')} — ${a.found.map(r=>t(r.offence)).join(', ')} ${t(a.found.length>1 ? 'are non-cognizable' : 'is non-cognizable')}`;
+  return t("Can't tell from these words. Choose the option that fits the offence.");
+}
+/* Optional AI fallback, tried only when the keywords can't tell. Short timeout; any failure means "can't tell". */
+async function tryAiCognizance(text){
+  const ctrl = typeof AbortController!=='undefined' ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(()=>ctrl.abort(), 6000) : null;
+  try{
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST", headers:{ "Content-Type":"application/json" }, signal: ctrl ? ctrl.signal : undefined,
+      body: JSON.stringify({ model:"claude-sonnet-4-6", max_tokens:200, messages:[{ role:"user", content:
+        `An Indian police officer describes an offence in a few words. Under the BNSS First Schedule, is it cognizable or non-cognizable? If more than one offence is described and any one is cognizable, answer cognizable (BNSS 174(4)). If the words are not enough to tell, answer unclear. Respond with ONLY strict JSON: {"verdict":"cognizable"|"non-cognizable"|"unclear","reason":"one short line, e.g. snatching is cognizable"}\n\nDescription: """${text}"""` }] })
+    });
+    if(!res.ok) return null;
+    const data = await res.json();
+    const raw = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim().replace(/^```(json)?/i,'').replace(/```$/,'').trim();
+    const out = JSON.parse(raw);
+    if(out.verdict!=='cognizable' && out.verdict!=='non-cognizable') return null;
+    return { verdict: out.verdict, reason: String(out.reason||'').slice(0,160), ai:true, found:[], cognizable:[], nonCognizable:[] };
+  }catch(e){ return null; }
+  finally{ if(timer) clearTimeout(timer); }
 }
 
 const SOP_LIBRARY = {
@@ -1587,7 +1733,12 @@ function loadDB(){
 }
 function saveDB(){ try{ localStorage.setItem(DB_KEY, JSON.stringify(DB)); }catch(e){} }
 let DB = loadDB();
-Object.keys(DB.cases).forEach(id=>{ DB.cases[id] = fillDefaults(DB.cases[id], defaultCaseShape(id)); });
+Object.keys(DB.cases).forEach(id=>{
+  const c = DB.cases[id];
+  // Cases saved before the Category step existed chose the category on the complaint form, so it counts as confirmed
+  if(c && c.categoryConfirmed === undefined) c.categoryConfirmed = !!(c.complaint && c.complaint.crimeSubCategory);
+  DB.cases[id] = fillDefaults(c, defaultCaseShape(id));
+});
 /* Section titles are copied into each case when picked. Refresh them from the corrected library so a case saved
    earlier no longer shows an old, wrong title against its section number (e.g. BNS 334 is breaking open a receptacle). */
 Object.values(DB.cases).forEach(c=>{
@@ -2140,6 +2291,82 @@ const HI_DICT = {
   "Review sections":"धाराएँ देखें",
   "Crime type changed. Review the BNS sections for it and confirm again.":"अपराध का प्रकार बदला गया। उसके लिए BNS धाराएँ देखें और फिर से पुष्टि करें।",
   "Couldn't copy to the clipboard. Select the text in the preview and copy it by hand.":"क्लिपबोर्ड पर कॉपी नहीं हुआ। पूर्वावलोकन में टेक्स्ट चुनकर खुद कॉपी करें।",
+  // Classification: FIR or NCR
+  "NCR":"एनसीआर", "FIR case":"एफआईआर मामला", "NCR case":"एनसीआर मामला", "New case":"नया मामला", "Category":"श्रेणी",
+  "Cognizable":"संज्ञेय", "Non-cognizable":"असंज्ञेय", "is cognizable":"संज्ञेय है", "is non-cognizable":"असंज्ञेय है", "are non-cognizable":"असंज्ञेय हैं",
+  "When one offence is cognizable, the whole case is cognizable (BNSS 174(4)).":"जब एक भी अपराध संज्ञेय हो, तो पूरा मामला संज्ञेय माना जाता है (BNSS 174(4))।",
+  "Can't tell from these words. Choose the option that fits the offence.":"इन शब्दों से तय नहीं हो पा रहा। अपराध के अनुसार सही विकल्प स्वयं चुनें।",
+  "Is this offence cognizable or non-cognizable?":"यह अपराध संज्ञेय है या असंज्ञेय?",
+  "Answer one question. It decides whether this case is registered as an FIR or an NCR.":"एक प्रश्न का उत्तर दें। इसी से तय होगा कि मामला एफआईआर के रूप में दर्ज होगा या एनसीआर के रूप में।",
+  "Cognizable → FIR":"संज्ञेय → एफआईआर", "Non-cognizable → NCR":"असंज्ञेय → एनसीआर",
+  "Register an FIR. Police investigate.":"एफआईआर दर्ज करें। पुलिस विवेचना करती है।",
+  "Record an NCR. The complainant is referred to the Magistrate.":"एनसीआर दर्ज करें। शिकायतकर्ता को मजिस्ट्रेट के पास भेजा जाता है।",
+  "Not sure? Help me decide":"पक्का नहीं? तय करने में मदद लें", "Describe the offence in a few words":"अपराध को कुछ शब्दों में बताएं",
+  "e.g. mobile snatched, verbal abuse":"जैसे: मोबाइल छीना, गाली-गलौज", "Suggest":"सुझाव दें", "Checking…":"जांच हो रही है…",
+  "This is only a suggestion. You decide: tap one of the two buttons.":"यह केवल सुझाव है। निर्णय आपका है: दोनों में से एक बटन दबाएं।",
+  "AI suggestion. You decide: tap one of the two buttons.":"एआई सुझाव। निर्णय आपका है: दोनों में से एक बटन दबाएं।",
+  "Type a few words about the offence first.":"पहले अपराध के बारे में कुछ शब्द लिखें।",
+  "Your name":"आपका नाम", "Optional":"वैकल्पिक", "Saved with the choice, and the time.":"चुनाव और समय के साथ सहेजा जाता है।",
+  "Switch to FIR":"एफआईआर में बदलें", "Switch to NCR":"एनसीआर में बदलें", "Keep FIR":"एफआईआर ही रखें", "Keep NCR":"एनसीआर ही रखें",
+  "Switch this case to FIR?":"यह मामला एफआईआर में बदलें?", "Switch this case to NCR?":"यह मामला एनसीआर में बदलें?",
+  "All case details are kept.":"मामले का सारा विवरण बना रहता है।", "Reason for switching":"बदलने का कारण",
+  "e.g. Complainant says the phone was snatched":"जैसे: शिकायतकर्ता के अनुसार फोन छीना गया",
+  "You can switch now, or keep your choice and continue.":"आप अभी बदल सकते हैं, या अपना चुनाव रखकर आगे बढ़ सकते हैं।",
+  "This complaint looks cognizable — an FIR should be registered.":"यह शिकायत संज्ञेय लगती है — एफआईआर दर्ज की जानी चाहिए।",
+  "This complaint looks non-cognizable.":"यह शिकायत असंज्ञेय लगती है।",
+  "Switched to FIR. All case details are kept.":"एफआईआर में बदला गया। मामले का सारा विवरण बना है।",
+  "Switched to NCR. All case details are kept.":"एनसीआर में बदला गया। मामले का सारा विवरण बना है।",
+  "Complaint registered as an FIR case.":"शिकायत एफआईआर मामले के रूप में दर्ज हुई।", "Complaint registered as an NCR case.":"शिकायत एनसीआर मामले के रूप में दर्ज हुई।",
+  "Recorded":"दर्ज", "Before this step existed; treated as FIR":"यह चरण बनने से पहले का मामला; एफआईआर माना गया", "Changes":"बदलाव",
+  "Not applicable (NCR)":"लागू नहीं (एनसीआर)", "NCR number pending":"एनसीआर संख्या बाकी", "NCR pending":"एनसीआर बाकी",
+  "Choose crime category":"अपराध श्रेणी चुनें", "Enter NCR number from CCTNS":"सीसीटीएनएस से एनसीआर संख्या दर्ज करें", "Copy NCR into CCTNS":"एनसीआर सीसीटीएनएस में कॉपी करें",
+  "Enter the complaint details. These will be carried into the NCR and GD.":"शिकायत का विवरण दर्ज करें। यह एनसीआर और जीडी में जाएगा।",
+  "Changes here carry into the NCR and GD.":"यहां के बदलाव एनसीआर और जीडी में जाते हैं।",
+  "Changes here carry into the FIR, GD and writer statement.":"यहां के बदलाव एफआईआर, जीडी और लेखक के बयान में जाते हैं।",
+  "The FIR preview updates when you save.":"सहेजने पर एफआईआर पूर्वावलोकन बदल जाता है।", "Save & return to FIR":"सहेजें और एफआईआर पर लौटें",
+  "Complaint saved.":"शिकायत सहेजी गई।", "Not yet chosen":"अभी नहीं चुना", "recorded from CCTNS":"सीसीटीएनएस से दर्ज",
+  "Copied, CCTNS number pending":"कॉपी हुआ, सीसीटीएनएस संख्या बाकी", "Not yet prepared":"अभी तैयार नहीं", "CCTNS number pending":"सीसीटीएनएस संख्या बाकी",
+  "No investigation without the Magistrate’s order (BNSS 174).":"मजिस्ट्रेट के आदेश के बिना कोई विवेचना नहीं (BNSS 174)।",
+  "Referred to Magistrate":"मजिस्ट्रेट को संदर्भित",
+  "Category & Sub-category":"श्रेणी और उप-श्रेणी", "Decides the suggested BNS sections.":"इसी से सुझाई जाने वाली बीएनएस धाराएं तय होती हैं।",
+  "Confirmed":"पुष्ट", "Confirm & continue":"पुष्टि करें और जारी रखें", "Select crime category and sub-category.":"अपराध श्रेणी और उप-श्रेणी चुनें।",
+  "Choose the crime category and sub-category first.":"पहले अपराध श्रेणी और उप-श्रेणी चुनें।",
+  "Choose the crime category first, or add sections below.":"पहले अपराध श्रेणी चुनें, या नीचे धाराएं जोड़ें।",
+  "A cognizable section is selected:":"एक संज्ञेय धारा चुनी गई है:", "Every chosen section is non-cognizable.":"चुनी गई हर धारा असंज्ञेय है।",
+  "It is cognizable.":"यह संज्ञेय है।", "Added manually":"स्वयं जोड़ी गई", "Identifying applicable sections for":"लागू धाराएं पहचानी जा रही हैं:",
+  "No non-cognizable offence found in the complaint yet. Search and add the sections below.":"शिकायत में अभी कोई असंज्ञेय अपराध नहीं मिला। नीचे धाराएं खोजकर जोड़ें।",
+  "No non-cognizable offence found in the complaint. Search and add the sections.":"शिकायत में कोई असंज्ञेय अपराध नहीं मिला। धाराएं खोजकर जोड़ें।",
+  "NCR case: non-cognizable sections only.":"एनसीआर मामला: केवल असंज्ञेय धाराएं।",
+  "Suggested sections are the non-cognizable offences found in the complaint. Review them against the BNS before confirming.":"सुझाई गई धाराएं शिकायत में मिले असंज्ञेय अपराध हैं। पुष्टि से पहले बीएनएस से मिलान करें।",
+  "Suggested sections are based on the selected crime type. Review them against the BNS before confirming.":"सुझाई गई धाराएं चुने गए अपराध प्रकार पर आधारित हैं। पुष्टि से पहले बीएनएस से मिलान करें।",
+  "Continue to NCR":"एनसीआर पर जारी रखें",
+  "Preliminary enquiry possible within 14 days with DSP-rank permission (BNSS 173(3)).":"डीएसपी स्तर की अनुमति से 14 दिन में प्रारंभिक जांच संभव है (BNSS 173(3))।",
+  "NCR text copied for CCTNS.":"सीसीटीएनएस के लिए एनसीआर टेक्स्ट कॉपी हुआ।", "Next: prepare the GD entry.":"आगे: जीडी प्रविष्टि तैयार करें।",
+  "Continue once CCTNS has given the NCR number.":"सीसीटीएनएस से एनसीआर संख्या मिलने के बाद जारी रखें।",
+  "Confirm BNS sections before preparing the NCR.":"एनसीआर तैयार करने से पहले बीएनएस धाराओं की पुष्टि करें।",
+  "NCR for CCTNS":"सीसीटीएनएस के लिए एनसीआर", "Copied. Paste the NCR into CCTNS.":"कॉपी हो गया। एनसीआर सीसीटीएनएस में पेस्ट करें।",
+  "Check the details below and the preview first.":"पहले नीचे का विवरण और पूर्वावलोकन जांचें।", "Copy NCR for CCTNS":"सीसीटीएनएस के लिए एनसीआर कॉपी करें",
+  "Enter NCR number received from CCTNS":"सीसीटीएनएस से मिली एनसीआर संख्या दर्ज करें", "NCR number from CCTNS":"सीसीटीएनएस से एनसीआर संख्या",
+  "NCR details":"एनसीआर विवरण", "Date":"तारीख", "Time":"समय", "Accused details (if known)":"अभियुक्त का विवरण (यदि ज्ञात हो)", "Brief facts":"संक्षिप्त तथ्य",
+  "Entering officer":"प्रविष्टि करने वाला अधिकारी", "NCR preview":"एनसीआर पूर्वावलोकन",
+  "Prepare the NCR before the GD entry.":"जीडी प्रविष्टि से पहले एनसीआर तैयार करें।", "Go to NCR":"एनसीआर पर जाएं",
+  "The GD entry will be prepared from the complaint and NCR information already recorded.":"जीडी प्रविष्टि शिकायत और एनसीआर की दर्ज जानकारी से तैयार होगी।",
+  "The GD entry will be prepared from the complaint and FIR information already recorded.":"जीडी प्रविष्टि शिकायत और एफआईआर की दर्ज जानकारी से तैयार होगी।",
+  "You copy it into CCTNS next, as with the NCR.":"इसके बाद इसे एनसीआर की तरह सीसीटीएनएस में कॉपी करें।",
+  "You copy it into CCTNS next, as with the FIR.":"इसके बाद इसे एफआईआर की तरह सीसीटीएनएस में कॉपी करें।",
+  "Finish registration":"पंजीकरण पूरा करें", "Save & continue to Writer Statement":"सहेजें और लेखक के बयान पर जारी रखें",
+  "Continue once CCTNS has given the GD number.":"सीसीटीएनएस से जीडी संख्या मिलने के बाद जारी रखें।",
+  "NCR registration is complete.":"एनसीआर पंजीकरण पूर्ण।", "Next: confirm the writer statement.":"आगे: लेखक के बयान की पुष्टि करें।",
+  "Prepare GD entry":"जीडी प्रविष्टि तैयार करें", "Copy GD entry into CCTNS":"जीडी प्रविष्टि सीसीटीएनएस में कॉपी करें", "Enter GD number from CCTNS":"सीसीटीएनएस से जीडी संख्या दर्ज करें",
+  "It will include:":"इसमें शामिल होगा:", "The entry text is shown in the preview.":"प्रविष्टि का टेक्स्ट पूर्वावलोकन में दिखाया गया है।",
+  "Copied. Paste the entry into CCTNS.":"कॉपी हो गया। प्रविष्टि सीसीटीएनएस में पेस्ट करें।", "GD number from CCTNS":"सीसीटीएनएस से जीडी संख्या",
+  "Continue to complaint":"शिकायत पर जारी रखें",
+  // Offences named by "Help me decide" (lower case: read inside a sentence)
+  "murder":"हत्या", "attempt to murder":"हत्या का प्रयास", "kidnapping":"अपहरण", "robbery":"लूट", "snatching":"झपटमारी", "burglary":"सेंधमारी",
+  "theft":"चोरी", "extortion":"उद्दापन (रंगदारी)", "grievous hurt":"गंभीर चोट", "sexual harassment":"यौन उत्पीड़न", "dowry harassment":"दहेज उत्पीड़न",
+  "stalking":"पीछा करना", "online fraud":"ऑनलाइन धोखाधड़ी", "account hacking":"अकाउंट हैकिंग", "verbal abuse":"गाली-गलौज", "threat":"धमकी",
+  "simple hurt":"साधारण चोट", "a quarrel":"झगड़ा", "defamation":"मानहानि", "mischief":"रिष्टि (नुकसान)", "drunken misconduct":"नशे में दुर्व्यवहार",
+  "public nuisance":"सार्वजनिक उपद्रव",
   "A Hindi PDF can't be made here, so the statement is downloading as a text file. Use Print to save it as PDF.":"यहाँ हिंदी PDF नहीं बन सकती, इसलिए कथन टेक्स्ट फ़ाइल के रूप में डाउनलोड हो रहा है। PDF के लिए प्रिंट का उपयोग करें।", "Photo / Video / Document / Audio":"फोटो / वीडियो / दस्तावेज़ / ऑडियो",
 };
 function t(text){ return UI_LANG === "hi" ? (HI_DICT[text] || text) : text; }
@@ -2227,8 +2454,31 @@ function banner(kind, bodyHtml, extraStyle){
 }
 /* One title for a case, used by the sidebar, top bar, case list, overview and FIR card so they never disagree. */
 function caseTitle(c){
-  if(c.fir.registered) return c.fir.number ? `${t('FIR')} ${esc(c.fir.number)}` : t('FIR number pending');
+  if(isNcr(c)){
+    if(String(c.ncr.number||'').trim()) return `${t('NCR')} ${esc(c.ncr.number)}`;
+    if(c.ncrCctnsCopied) return t('NCR number pending');
+  } else if(c.fir.registered) return c.fir.number ? `${t('FIR')} ${esc(c.fir.number)}` : t('FIR number pending');
   return c.complaint.complainantName ? esc(c.complaint.complainantName) : t('Untitled complaint');
+}
+function isNcr(c){ return !!c && c.classification === 'NCR'; }
+/* Small "FIR" / "NCR" label shown next to the case number in the register, sidebar and overview. */
+function caseTypeBadge(c){ const ncr = isNcr(c); return `<span class="type-badge type-badge--${ncr?'ncr':'fir'}">${ncr?'NCR':'FIR'}</span>`; }
+/* The officer as recorded against a choice: name and rank when known, otherwise the login mobile. */
+function officerLabel(){
+  const o = LOGGED_IN_OFFICER || {};
+  return o.name ? [o.rank, o.name].filter(Boolean).join(' ') : (o.mobile ? `+91 ${o.mobile}` : '');
+}
+function saveOfficerProfile(name, rank){
+  if(!LOGGED_IN_OFFICER) return;
+  LOGGED_IN_OFFICER.name = String(name||'').trim(); LOGGED_IN_OFFICER.rank = String(rank||'').trim();
+  try{ localStorage.setItem("axial_login", JSON.stringify(LOGGED_IN_OFFICER)); }catch(e){}
+}
+/* A section's cognizable flag comes from the library by its code, so cases saved earlier get it too.
+   null = not known (a manually added section, or one that follows the main offence). */
+function sectionCognizable(s){
+  const lib = BNS_LIBRARY.find(b=>b.code===s.code);
+  if(lib) return lib.cognizable;
+  return typeof s.cognizable === 'boolean' ? s.cognizable : null;
 }
 /* The station an officer registered their last case at, pre-fills the next complaint. */
 function lastUsedStation(){
@@ -2252,6 +2502,12 @@ function defaultCaseShape(id){
   return {
     id,
     createdAt: new Date().toISOString(),
+    // "FIR" (cognizable) or "NCR" (non-cognizable). Cases saved before this existed default to FIR.
+    classification:"FIR", classificationReason:"", classifiedAt:"", classifiedBy:"", classificationHistory:[],
+    // The crime category and sub-category themselves stay in complaint.crimeCategory / crimeSubCategory
+    categoryConfirmed:false,
+    ncr:{ prepared:false, number:"", date:"", time:"", accused:"", briefFacts:"", enteringOfficer:"", enteringOfficerRank:"", actionTaken:"Referred to Magistrate" },
+    ncrCctnsCopied:false,
     complaint: {
       complaintNumber:"", complaintDate: nowDate(), complaintTime: nowTime(),
       policeStation:"", district:"",
@@ -2442,43 +2698,57 @@ document.addEventListener('keydown', (ev)=>{
 
 /* In-app confirmation. The browser's confirm() is switched off in sandboxed previews, where it
    returns "cancel" without showing anything, so Log out and Delete case did nothing there. */
-function confirmDialog({title, body, confirmLabel, danger}){
+/* `detail` is a second line already translated (e.g. a built reason); `cancelLabel` replaces "Cancel".
+   With `input`, the dialog asks for a line of text and resolves to it (or null when cancelled). */
+function confirmDialog({title, body, detail, confirmLabel, cancelLabel, danger, input}){
   return new Promise((resolve)=>{
     const returnFocus = document.activeElement;
     const scrim = document.createElement('div');
     scrim.className = 'scrim';
-    scrim.innerHTML = `<div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="dlg-title"${body?' aria-describedby="dlg-body"':''}>
+    scrim.innerHTML = `<div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="dlg-title"${body||detail?' aria-describedby="dlg-body"':''}>
       <h2 class="modal-title" id="dlg-title">${esc(t(title))}</h2>
-      ${body ? `<p class="modal-body" id="dlg-body">${esc(t(body))}</p>` : ''}
+      ${body||detail ? `<div id="dlg-body">${detail ? `<p class="modal-body modal-detail">${esc(detail)}</p>` : ''}${body ? `<p class="modal-body">${esc(t(body))}</p>` : ''}</div>` : ''}
+      ${input ? `<div class="field modal-field"><label for="dlg-input">${esc(t(input.label))}</label>
+        <input class="axial-input" id="dlg-input" autocomplete="off" maxlength="200" placeholder="${esc(t(input.placeholder||''))}"></div>` : ''}
       <div class="modal-actions">
-        <button type="button" class="axial-btn axial-btn--outline axial-btn--md" data-act="cancel">${t('Cancel')}</button>
-        <button type="button" class="axial-btn ${danger?'axial-btn--danger':'axial-btn--primary'} axial-btn--md" data-act="ok">${esc(t(confirmLabel))}</button>
+        <button type="button" class="axial-btn axial-btn--outline axial-btn--md" data-act="cancel">${esc(t(cancelLabel||'Cancel'))}</button>
+        <button type="button" class="axial-btn ${danger?'axial-btn--danger':'axial-btn--primary'} axial-btn--md" data-act="ok"${input?' disabled':''}>${esc(t(confirmLabel))}</button>
       </div>
     </div>`;
-    const buttons = ()=>Array.from(scrim.querySelectorAll('button'));
+    const field = scrim.querySelector('#dlg-input');
+    const okBtn = scrim.querySelector('[data-act="ok"]');
+    const focusables = ()=>Array.from(scrim.querySelectorAll('input, button:not([disabled])'));
     const close = (ok)=>{
       document.removeEventListener('keydown', onKey, true);
       scrim.remove();
       if(returnFocus && document.contains(returnFocus)) returnFocus.focus();
-      resolve(ok);
+      resolve(input ? (ok ? field.value.trim() : null) : ok);
     };
     const onKey = (e)=>{
       if(e.key==='Escape'){ e.preventDefault(); close(false); }
+      else if(e.key==='Enter' && field && document.activeElement===field){ e.preventDefault(); if(!okBtn.disabled) close(true); }
       else if(e.key==='Tab'){
-        const b = buttons(), i = b.indexOf(document.activeElement);
+        const b = focusables(), i = b.indexOf(document.activeElement);
         e.preventDefault(); b[(i + (e.shiftKey ? b.length-1 : 1)) % b.length].focus();
       }
     };
+    if(field) field.addEventListener('input', ()=>{ okBtn.disabled = !field.value.trim(); });
     scrim.addEventListener('click', (e)=>{
       if(e.target===scrim) return close(false);
       const act = e.target.closest('[data-act]');
-      if(act) close(act.dataset.act==='ok');
+      if(act && !act.disabled) close(act.dataset.act==='ok');
     });
     document.addEventListener('keydown', onKey, true);
     document.body.appendChild(scrim);
     // A destructive action starts on Cancel, so a stray Enter can't delete anything
-    scrim.querySelector(danger ? '[data-act="cancel"]' : '[data-act="ok"]').focus();
+    (field || scrim.querySelector(danger ? '[data-act="cancel"]' : '[data-act="ok"]')).focus();
   });
+}
+/* Switching between FIR and NCR always asks why; the reason is saved with the case. */
+function askSwitchReason(to){
+  return confirmDialog({ title: to==='FIR' ? 'Switch this case to FIR?' : 'Switch this case to NCR?',
+    body:'All case details are kept.', confirmLabel: to==='FIR' ? 'Switch to FIR' : 'Switch to NCR',
+    input:{ label:'Reason for switching', placeholder:'e.g. Complainant says the phone was snatched' } });
 }
 
 /* Previews also block downloads and the print dialog. When the page is embedded, say so. */
@@ -2496,16 +2766,38 @@ function keyActivate(ev){ if(ev.key==="Enter" || ev.key===" "){ ev.preventDefaul
 /* ================= REGISTRATION STAGE =================
    Derived from case data only, nothing here writes to the case. Used by the register,
    sidebar, case header, registration nav and the "continue" actions. */
-const REG_STEPS = [
-  { id:'complaint',    label:'Complaint',        done:c=>!!c.complaint.registered },
-  { id:'bns',          label:'BNS Sections',     done:c=>!!c.bns.confirmed },
+/* Two paths after the complaint. Only the chosen path's steps are shown. */
+const STEP_CLASSIFICATION = { id:'classification', label:'Classification', done:c=>!!c.classification };
+const STEP_COMPLAINT      = { id:'complaint',      label:'Complaint',      done:c=>!!c.complaint.registered };
+const STEP_BNS            = { id:'bns',            label:'BNS Sections',   done:c=>!!c.bns.confirmed };
+const STEP_GD             = { id:'gd',             label:'GD',             done:c=>!!c.gd.generated && !!String(c.gd.number||'').trim() };
+const REG_STEPS_FIR = [
+  STEP_CLASSIFICATION, STEP_COMPLAINT,
+  { id:'category',     label:'Category',         done:c=>!!c.categoryConfirmed && !!c.complaint.crimeSubCategory },
+  STEP_BNS,
   { id:'fir',          label:'FIR',              done:c=>!!c.fir.registered && !!String(c.fir.number||'').trim() },
   { id:'io',           label:'IO Assignment',    done:c=>!!c.io.assigned },
-  { id:'gd',           label:'GD',               done:c=>!!c.gd.generated && !!String(c.gd.number||'').trim() },
+  STEP_GD,
   { id:'firStatement', label:'Writer Statement', done:c=>!!c.firStatement.generated },
 ];
-function isRegistrationComplete(c){ return REG_STEPS.every(s=>s.done(c)); }
+const REG_STEPS_NCR = [
+  STEP_CLASSIFICATION, STEP_COMPLAINT, STEP_BNS,
+  { id:'ncr',          label:'NCR',              done:c=>!!String(c.ncr.number||'').trim() },
+  STEP_GD,
+];
+function regSteps(c){ return isNcr(c) ? REG_STEPS_NCR : REG_STEPS_FIR; }
+function isRegistrationComplete(c){ return regSteps(c).every(s=>s.done(c)); }
+/* The tab a path starts on once the complaint is saved. */
+function firstPathTab(c){ return isNcr(c) ? 'bns' : 'category'; }
 function nextAction(c){
+  if(isNcr(c)){
+    if(!c.bns.confirmed) return { tab:'bns', label:'Confirm BNS sections' };
+    if(!String(c.ncr.number||'').trim()) return { tab:'ncr', label: c.ncrCctnsCopied ? 'Enter NCR number from CCTNS' : 'Copy NCR into CCTNS' };
+    if(!c.gd.generated) return { tab:'gd', label:'Prepare GD entry' };
+    if(!String(c.gd.number||'').trim()) return { tab:'gd', label: c.gdCctnsCopied ? 'Enter GD number from CCTNS' : 'Copy GD into CCTNS' };
+    return null;
+  }
+  if(!(c.categoryConfirmed && c.complaint.crimeSubCategory)) return { tab:'category', label:'Choose crime category' };
   if(!c.bns.confirmed) return { tab:'bns', label:'Confirm BNS sections' };
   if(!c.fir.registered) return { tab:'fir', label:'Prepare FIR for CCTNS' };
   if(!String(c.fir.number||'').trim()) return { tab:'fir', label: c.firCctnsCopied ? 'Enter FIR number from CCTNS' : 'Copy FIR into CCTNS' };
@@ -2519,7 +2811,9 @@ function caseStage(c){
   const n = nextAction(c);
   if(!n) return { label:'Registration complete', tone:'success', icon:'check_circle' };
   const byTab = {
+    category:     ['Complaint registered', 'neutral', ''],
     bns:          ['Complaint registered', 'neutral', ''],
+    ncr:          [c.ncrCctnsCopied ? 'CCTNS pending' : 'NCR pending', 'accent', 'clock'],
     fir:          [c.fir.registered ? 'CCTNS pending' : 'FIR pending', 'accent', 'clock'],
     io:           ['IO assignment pending', 'accent', 'clock'],
     gd:           [c.gd.generated ? 'GD number pending' : 'GD pending', 'accent', 'clock'],
@@ -2569,10 +2863,10 @@ function renderSidebar(){
   const recent = DB.order.map(id=>{
     const c = DB.cases[id];
     const st = caseStage(c);
-    const sub = c.complaint.crimeSubCategory ? t(c.complaint.crimeSubCategory) : t('Not classified');
+    const sub = isNcr(c) ? t('Non-cognizable') : c.complaint.crimeSubCategory ? t(c.complaint.crimeSubCategory) : t('Not classified');
     const active = UI.view==='case' && UI.caseId===id;
     return `<button type="button" class="side-case${active?' active':''}" ${active?'aria-current="true"':''} onclick="openCase('${id}')">
-      <span class="side-case-title" data-case-title="${id}">${caseTitle(c)}</span>
+      <span class="side-case-title">${caseTypeBadge(c)}<span data-case-title="${id}">${caseTitle(c)}</span></span>
       <span class="side-case-sub">${esc(sub)} · ${t(st.label)}</span>
     </button>`;
   }).join('');
@@ -2605,7 +2899,7 @@ function renderTopbar(){
     title = `<span id="topbar-title">${t('All cases')}</span>`;
   } else {
     const c = UI.view==='case' ? getCase(UI.caseId) : null;
-    const current = UI.view==='new' ? t('Register complaint') : (c ? caseTitle(c) : t('Case'));
+    const current = UI.view==='new' ? t(UI.newClass ? 'Register complaint' : 'New case') : (c ? caseTitle(c) : t('Case'));
     title = `<button type="button" class="topbar-crumb" onclick="goList()">${t('All cases')}</button><span class="topbar-sep" aria-hidden="true">/</span><span id="topbar-title">${current}</span>`;
   }
   return `<header class="topbar">
@@ -2625,7 +2919,7 @@ function caseMatchesFilter(c, f){ return f==='complete' ? isRegistrationComplete
 function caseMatchesQuery(c, q){
   if(!q) return true;
   const p = c.complaint;
-  return [c.fir.number, p.complaintNumber, c.gd.number, p.complainantName, p.crimeSubCategory, p.crimeCategory, p.policeStation, p.district, c.io.name, c.bns.sections.map(s=>s.code).join(' ')]
+  return [c.classification, c.fir.number, c.ncr.number, p.complaintNumber, c.gd.number, p.complainantName, p.crimeSubCategory, p.crimeCategory, p.policeStation, p.district, c.io.name, c.bns.sections.map(s=>s.code).join(' ')]
     .some(v=> String(v||'').toLowerCase().includes(q));
 }
 function caseRowHtml(c){
@@ -2634,14 +2928,14 @@ function caseRowHtml(c){
   const secs = sectionsShort(c);
   return `<div class="case-row" role="row" tabindex="0" aria-label="${t('Open')} ${esc(stripTags(caseTitle(c)))}" onclick="openCase('${c.id}')" onkeydown="keyActivate(event)">
     <div class="cell c-case" role="cell">
-      <div class="cell-main"><span>${caseTitle(c)}</span>${c.sample ? `<span class="tag-sample">${t('Sample')}</span>` : ''}</div>
-      <div class="cell-sub">${[c.fir.registered ? esc(p.complainantName) : '', esc(psName(p.policeStation))].filter(Boolean).join(' · ')}</div>
+      <div class="cell-main">${caseTypeBadge(c)}<span>${caseTitle(c)}</span>${c.sample ? `<span class="tag-sample">${t('Sample')}</span>` : ''}</div>
+      <div class="cell-sub">${[(isNcr(c) ? c.ncr.number : c.fir.registered) ? esc(p.complainantName) : '', esc(psName(p.policeStation))].filter(Boolean).join(' · ')}</div>
     </div>
     <div class="cell c-offence" role="cell">
-      <div class="cell-main"><span>${esc(t(p.crimeSubCategory||'Not classified'))}</span></div>
+      <div class="cell-main"><span>${esc(t(isNcr(c) ? 'Non-cognizable' : (p.crimeSubCategory||'Not classified')))}</span></div>
       <div class="cell-sub">${secs ? esc(secs) : `<span class="cell-muted">${t('Sections not confirmed')}</span>`}</div>
     </div>
-    <div class="cell c-io" role="cell">${c.io.assigned ? `<div class="cell-main"><span>${esc(c.io.name)}</span></div><div class="cell-sub">${esc(c.io.rank||'')}</div>` : `<span class="cell-muted">${t('Not assigned')}</span>`}</div>
+    <div class="cell c-io" role="cell">${isNcr(c) ? `<span class="cell-muted">${t('Not applicable (NCR)')}</span>` : c.io.assigned ? `<div class="cell-main"><span>${esc(c.io.name)}</span></div><div class="cell-sub">${esc(c.io.rank||'')}</div>` : `<span class="cell-muted">${t('Not assigned')}</span>`}</div>
     <div class="cell c-status" role="cell">${stagePill(c)}</div>
     <div class="cell c-next" role="cell">${n
       ? `<span class="cell-next"><span>${t(n.label)}</span>${ic('chevron_right')}</span>`
@@ -2710,7 +3004,7 @@ function renderCaseList(){
 
 function renderMain(){
   if(UI.view==="list") return renderCaseList();
-  if(UI.view==="new") return renderNewComplaintForm(null);
+  if(UI.view==="new") return UI.newClass ? renderNewComplaintForm(null) : renderNewCaseClassify();
   if(UI.view==="case"){
     const c = getCase(UI.caseId);
     if(!c) return renderCaseList();
@@ -2736,29 +3030,200 @@ function statusPill(status){
 }
 
 /* ---------------- NAV HELPERS (exposed to inline handlers) ---------------- */
-function startNewComplaint(){ UI.view="new"; UI.tempCase = null; render(); toTop(); }
+function startNewComplaint(){ UI.view="new"; UI.tempCase = null; UI.newClass = null; UI.classifyHelp = null; render(); toTop(); }
 function toTop(){ try{ window.scrollTo({top:0, behavior:'auto'}); }catch(e){ window.scrollTo(0,0); } }
 function openCase(id){ UI.view="case"; UI.caseId=id; UI.tab="overview"; render(); toTop(); }
 function goList(){ UI.view="list"; render(); toTop(); }
 function setTab(tab){ UI.tab=tab; render(); toTop(); }
+/* Tabs that belong to this case's path. The other path's tabs stay hidden and can't be opened. */
+function caseTabs(c){ return ['overview', ...(isNcr(c) ? [] : ['diary']), ...regSteps(c).map(s=>s.id)]; }
 
 /* ================= 1. REGISTER COMPLAINT ================= */
 
 /* Free-text narration box + mic + AI extraction, shared by new-complaint and edit-complaint screens */
 /* Ask Claude to pull structured fields out of the free-text narration.
    The officer must still review every field before saving, nothing here is final. */
-/* ================= COMPLAINT FORM ================= */
-function renderNewComplaintForm(){
+/* ================= CLASSIFICATION (first step of a new case) =================
+   One question: cognizable (FIR) or non-cognizable (NCR). "Help me decide" only suggests; the
+   officer always taps one of the two buttons. The choice decides which tabs the case shows. */
+function classifyHelpState(){
+  if(!UI.classifyHelp) UI.classifyHelp = { open:false, text:'', result:null, busy:false };
+  return UI.classifyHelp;
+}
+function classifyChoiceButton(kind, suggested){
+  const fir = kind==='FIR';
+  return `<button type="button" class="classify-btn${suggested?' is-suggested':''}" data-choice="${kind}" onclick="chooseClassification('${kind}')">
+    <span class="classify-btn-icon">${ic(fir ? 'description' : 'menu_book')}</span>
+    <span class="classify-btn-text">
+      ${suggested ? `<span class="tag-suggested classify-btn-tag">${t('Suggested')}</span>` : ''}
+      <span class="classify-btn-title">${t(fir ? 'Cognizable → FIR' : 'Non-cognizable → NCR')}</span>
+      <span class="classify-btn-sub">${t(fir ? 'Register an FIR. Police investigate.' : 'Record an NCR. The complainant is referred to the Magistrate.')}</span>
+    </span>
+  </button>`;
+}
+function classifyResultHtml(r){
+  if(!r) return '';
+  const unclear = r.verdict!=='cognizable' && r.verdict!=='non-cognizable';
+  return banner(unclear ? 'warning' : 'info', `<span class="classify-reason">${esc(cognizanceReasonText(r))}</span>
+    ${unclear ? '' : `<span class="caption">${t(r.ai ? 'AI suggestion. You decide: tap one of the two buttons.' : 'This is only a suggestion. You decide: tap one of the two buttons.')}</span>`}`);
+}
+function renderNewCaseClassify(){
+  const h = classifyHelpState();
+  const verdict = h.result && h.result.verdict;
+  const o = LOGGED_IN_OFFICER || {};
   return `
   <div class="page-head">
     <div>
+      <h1 class="page-title">${t('New case')}</h1>
+      <p class="page-sub">${t('Answer one question. It decides whether this case is registered as an FIR or an NCR.')}</p>
+    </div>
+  </div>
+  <section class="section-card classify-card" aria-labelledby="classify-q">
+    <h2 class="classify-q" id="classify-q">${t('Is this offence cognizable or non-cognizable?')}</h2>
+    <div class="classify-choices">
+      ${classifyChoiceButton('FIR', verdict==='cognizable')}
+      ${classifyChoiceButton('NCR', verdict==='non-cognizable')}
+    </div>
+    <div class="classify-help">
+      ${h.open ? `
+      <div class="classify-help-panel">
+        <div class="field">
+          <label for="classify-help-text">${t('Describe the offence in a few words')}</label>
+          <div class="field-adorned">
+            <textarea class="axial-textarea" id="classify-help-text" style="min-height:72px;" placeholder="${t('e.g. mobile snatched, verbal abuse')}" oninput="classifyHelpState().text=this.value">${esc(h.text)}</textarea>
+            ${micButton('classify-help-text', 'bottom', 'Speak to add text')}
+          </div>
+        </div>
+        <div class="classify-help-actions">
+          <button type="button" id="classify-suggest-btn" class="axial-btn axial-btn--outline axial-btn--md" onclick="suggestClassification()"${h.busy?' disabled':''}>${ic('auto_awesome')}<span>${t(h.busy ? 'Checking…' : 'Suggest')}</span></button>
+          <button type="button" class="axial-btn axial-btn--ghost axial-btn--md" onclick="toggleClassifyHelp(false)">${t('Close')}</button>
+        </div>
+        <div id="classify-result" role="status" aria-live="polite">${classifyResultHtml(h.result)}</div>
+      </div>`
+      : `<button type="button" class="auth-link" id="classify-help-link" onclick="toggleClassifyHelp(true)">${t('Not sure? Help me decide')}</button>`}
+    </div>
+    <div class="classify-officer">
+      <div class="field"><label for="classify-officer-name">${t('Your name')}</label><input class="axial-input" id="classify-officer-name" autocomplete="name" value="${esc(o.name||'')}" placeholder="${t('Optional')}"></div>
+      <div class="field"><label for="classify-officer-rank">${t('Rank')}</label><input class="axial-input" id="classify-officer-rank" value="${esc(o.rank||'')}" placeholder="${t('Optional')}"></div>
+      <p class="caption classify-officer-note">${t('Saved with the choice, and the time.')}</p>
+    </div>
+  </section>`;
+}
+function toggleClassifyHelp(open){
+  const h = classifyHelpState();
+  h.open = open;
+  render();
+  const el = document.getElementById(open ? 'classify-help-text' : 'classify-help-link'); if(el) el.focus();
+}
+async function suggestClassification(){
+  const h = classifyHelpState();
+  const el = document.getElementById('classify-help-text');
+  if(el) h.text = el.value;
+  if(!h.text.trim()){ toast("Type a few words about the offence first."); return; }
+  let r = assessCognizance(h.text);
+  if(r.verdict==='unclear'){
+    // Keywords couldn't tell: try the optional AI once; any failure leaves it "can't tell"
+    h.busy = true; render();
+    const ai = await tryAiCognizance(h.text);
+    h.busy = false;
+    if(ai) r = ai;
+  }
+  h.result = r;
+  render();
+}
+function chooseClassification(kind){
+  const name = document.getElementById('classify-officer-name'), rank = document.getElementById('classify-officer-rank');
+  if(name || rank) saveOfficerProfile(name ? name.value : '', rank ? rank.value : '');
+  const h = classifyHelpState();
+  UI.newClass = { classification: kind, at: new Date().toISOString(), by: officerLabel(),
+    suggestion: h.result ? h.result.verdict : '' };
+  render(); toTop();
+}
+function changeNewClassification(){ UI.newClass = null; render(); toTop(); }
+/* "FIR case" / "NCR case" label shown at the top of the complaint. */
+function caseTypePill(kind){
+  return `<span class="pill ${kind==='NCR' ? 'pill--warning' : 'pill--accent'} case-type-pill">${ic(kind==='NCR' ? 'menu_book' : 'description')}${t(kind==='NCR' ? 'NCR case' : 'FIR case')}</span>`;
+}
+/* Saving a complaint checks the narration against the choice. Returns the classification to use,
+   and a reason when the officer switched. Dismissing keeps the choice. */
+async function checkNarrationAgainstChoice(current, text){
+  const a = assessCognizance(text);
+  let to = null, title = '';
+  if(current==='NCR' && a.verdict==='cognizable'){ to = 'FIR'; title = 'This complaint looks cognizable — an FIR should be registered.'; }
+  else if(current==='FIR' && a.verdict==='non-cognizable'){ to = 'NCR'; title = 'This complaint looks non-cognizable.'; }
+  if(!to) return { classification: current };
+  const sw = await confirmDialog({ title, detail: cognizanceReasonText(a), body:'You can switch now, or keep your choice and continue.',
+    confirmLabel: to==='FIR' ? 'Switch to FIR' : 'Switch to NCR', cancelLabel: current==='FIR' ? 'Keep FIR' : 'Keep NCR' });
+  if(!sw) return { classification: current };
+  const reason = await askSwitchReason(to);
+  if(reason===null) return { classification: current };
+  return { classification: to, reason };
+}
+/* Records a (new) classification on the case, with who and when; earlier choices stay in the history. */
+function setCaseClassification(c, to, reason, at, by, initial){
+  const from = initial ? null : c.classification;
+  at = at || new Date().toISOString(); by = by || officerLabel();
+  c.classificationHistory.push({ from, to, reason: reason||'', at, by });
+  // Sections confirmed for one path have to be looked at again for the other; they are kept, not removed
+  if(from && from!==to) c.bns.confirmed = false;
+  Object.assign(c, { classification: to, classificationReason: reason||'', classifiedAt: at, classifiedBy: by });
+}
+async function switchCasePath(caseId, to){
+  const c = getCase(caseId);
+  if(!c || c.classification===to) return;
+  const reason = await askSwitchReason(to);
+  if(reason===null) return;
+  setCaseClassification(c, to, reason);
+  saveDB();
+  const n = nextAction(c);
+  UI.tab = n ? n.tab : 'overview';
+  render(); toTop();
+  toast(to==='FIR' ? "Switched to FIR. All case details are kept." : "Switched to NCR. All case details are kept.");
+}
+function renderClassificationTab(c){
+  const ncr = isNcr(c), other = ncr ? 'FIR' : 'NCR';
+  const hist = (c.classificationHistory||[]).slice().reverse();
+  return `
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">${t('Classification')}</h1>
+      <p class="page-sub">${t('Is this offence cognizable or non-cognizable?')}</p>
+    </div>
+  </div>
+  <section class="section-card" style="max-width:760px;">
+    <div class="quiet-panel-body" style="padding:var(--axial-space-20);">
+      <div class="classify-current">
+        ${caseTypePill(c.classification)}
+        <span class="classify-current-text">${t(ncr ? 'Non-cognizable → NCR' : 'Cognizable → FIR')}</span>
+      </div>
+      <dl class="fir-summary-dl" style="margin-top:var(--axial-space-16);">
+        <dt>${t('Recorded')}</dt><dd>${c.classifiedAt ? esc(shortDateTime(c.classifiedAt.slice(0,10), c.classifiedAt.slice(11,16))) : `<span class="fir-soft">${t('Before this step existed; treated as FIR')}</span>`}</dd>
+        <dt>${t('Officer')}</dt><dd>${c.classifiedBy ? esc(c.classifiedBy) : `<span class="fir-soft">${t('Not recorded')}</span>`}</dd>
+        ${c.classificationReason ? `<dt>${t('Reason for switching')}</dt><dd>${esc(c.classificationReason)}</dd>` : ''}
+      </dl>
+      ${hist.length>1 ? `<div class="classify-history"><div class="group-label">${ic('clock')}<span>${t('Changes')}</span></div><ul>${hist.map(h=>`<li>${h.from ? `${esc(h.from)} → ` : ''}${esc(h.to)} · ${esc(shortDateTime(h.at.slice(0,10), h.at.slice(11,16)))}${h.by ? ` · ${esc(h.by)}` : ''}${h.reason ? ` · “${esc(h.reason)}”` : ''}</li>`).join('')}</ul></div>` : ''}
+    </div>
+    <div class="task-foot">
+      <button type="button" class="axial-btn axial-btn--outline axial-btn--md" onclick="switchCasePath('${c.id}','${other}')">${ic('refresh')}<span>${t(other==='FIR' ? 'Switch to FIR' : 'Switch to NCR')}</span></button>
+      <button type="button" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" onclick="saveAndContinue('${c.id}','classification')"><span>${t('Continue to complaint')}</span>${ic('arrow_forward')}</button>
+    </div>
+  </section>`;
+}
+
+/* ================= COMPLAINT FORM ================= */
+function renderNewComplaintForm(){
+  const kind = UI.newClass.classification;
+  return `
+  <div class="page-head">
+    <div>
+      <div class="case-type-row">${caseTypePill(kind)}<button type="button" class="auth-link" onclick="changeNewClassification()">${t('Change')}</button></div>
       <h1 class="page-title">${t('Register complaint')}</h1>
-      <p class="page-sub">${t('Enter the complaint details. These will be carried into the FIR, GD and writer statement.')}</p>
+      <p class="page-sub">${t(kind==='NCR' ? 'Enter the complaint details. These will be carried into the NCR and GD.' : 'Enter the complaint details. These will be carried into the FIR, GD and writer statement.')}</p>
     </div>
   </div>
   <form id="complaint-form" class="form-surface" novalidate onsubmit="return submitComplaint(event)">
     ${complaintFreeTextBlock('complaint-form','complaint-freetext-new')}
-    ${complaintFields(lastUsedStation())}
+    ${complaintFields(lastUsedStation(), {withCategory:true})}
     <div class="sticky-actions">
       <span class="caption">${t('Nothing is filed until you confirm the FIR.')}</span>
       <div class="sticky-actions-right">
@@ -2772,17 +3237,18 @@ function renderComplaintTab(c){
   return `
   <div class="page-head">
     <div>
+      <div class="case-type-row">${caseTypePill(c.classification)}</div>
       <h1 class="page-title">${t('Complaint')}</h1>
-      <p class="page-sub">${t('Changes here carry into the FIR, GD and writer statement.')}</p>
+      <p class="page-sub">${t(isNcr(c) ? 'Changes here carry into the NCR and GD.' : 'Changes here carry into the FIR, GD and writer statement.')}</p>
     </div>
   </div>
   <form id="complaint-edit-form-${c.id}" class="form-surface" novalidate onsubmit="return saveComplaintEdits(event, '${c.id}')">
     ${complaintFreeTextBlock('complaint-edit-form-'+c.id, 'complaint-freetext-edit-'+c.id)}
     ${complaintFields(c.complaint)}
     <div class="sticky-actions">
-      <span class="caption">${c.fir.registered ? t('The FIR preview updates when you save.') : ''}</span>
+      <span class="caption">${!isNcr(c) && c.fir.registered ? t('The FIR preview updates when you save.') : ''}</span>
       <div class="sticky-actions-right">
-        <button type="button" data-submit onclick="submitComplaintForm(this)" class="axial-btn axial-btn--primary axial-btn--md btn-arrow"><span>${t(c.fir.registered ? 'Save & return to FIR' : 'Save & continue')}</span>${ic('arrow_forward')}</button>
+        <button type="button" data-submit onclick="submitComplaintForm(this)" class="axial-btn axial-btn--primary axial-btn--md btn-arrow"><span>${t(!isNcr(c) && c.fir.registered ? 'Save & return to FIR' : 'Save & continue')}</span>${ic('arrow_forward')}</button>
       </div>
     </div>
   </form>`;
@@ -2828,7 +3294,10 @@ function formSection(no, title, desc, fieldsHtml, extra){
     <div class="form-section-fields">${fieldsHtml}</div>
   </section>`;
 }
-function complaintFields(existing){
+/* The crime category is chosen on its own step (FIR path). A new complaint keeps whatever the narration
+   extraction found in hidden fields, so the Category step opens pre-filled. */
+function complaintFields(existing, opts){
+  const o = opts || {};
   const v = (k)=> esc(existing[k]||"");
   return `
     <input type="hidden" name="complaintDate" value="${existing.complaintDate||nowDate()}">
@@ -2846,23 +3315,7 @@ function complaintFields(existing){
         <div class="field"><label>${t('Time of incident')}</label><input class="axial-input" type="time" name="timeOfIncident" value="${v('timeOfIncident')}"></div>
       </div>
       ${fieldWithMic('Description of incident', 'complaint-description-field', existing.description, '', {name:'description', required:true, minHeight:'120px'})}`)}
-    ${formSection('04', 'Crime classification', 'Decides the suggested BNS sections.', `
-      <div class="form-grid">
-        <div class="field">
-          <label for="cc-category">${t('Crime category')}</label>
-          <select class="axial-select" name="crimeCategory" id="cc-category" onchange="updateSubcategoryOptions(this)" required>
-            <option value="">${t('Select category')}</option>
-            ${Object.keys(CRIME_TAXONOMY).map(cat=>`<option value="${cat}" ${existing.crimeCategory===cat?'selected':''}>${cat}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label for="cc-subcategory">${t('Crime sub-category')}</label>
-          <select class="axial-select" name="crimeSubCategory" id="cc-subcategory" required>
-            <option value="">${t('Select sub-category')}</option>
-            ${existing.crimeCategory ? CRIME_TAXONOMY[existing.crimeCategory].map(s=>`<option value="${s}" ${existing.crimeSubCategory===s?'selected':''}>${s}</option>`).join("") : ""}
-          </select>
-        </div>
-      </div>`, `<span class="confirm-tag">${ic('warning')}${t('Officer to confirm')}</span>`)}
+    ${o.withCategory ? `<input type="hidden" name="crimeCategory" value="${v('crimeCategory')}"><input type="hidden" name="crimeSubCategory" value="${v('crimeSubCategory')}">` : ''}
   `;
 }
 
@@ -2932,13 +3385,8 @@ function applyExtractedFieldsToForm(form, fields){
     }
   });
   const cls = reconcileClassification(fields);
-  const catEl = form.querySelector('#cc-category');
-  if(catEl && cls.category){
-    catEl.value = cls.category;
-    updateSubcategoryOptions(catEl);
-    const subEl = form.querySelector('#cc-subcategory');
-    if(subEl) subEl.value = cls.subCategory || "";
-  }
+  const catEl = form.elements.crimeCategory, subEl = form.elements.crimeSubCategory;
+  if(catEl && subEl && cls.category){ catEl.value = cls.category; subEl.value = cls.subCategory || ""; }
 }
 /* The sub-category decides the category: a sub-category belongs to exactly one group, so a reply
    like "Violent Crime" + "Robbery" (robbery is listed under property crime) is corrected rather than
@@ -2974,8 +3422,14 @@ function formToObj(form){
 function submitComplaint(ev){
   ev.preventDefault();
   const obj = normaliseComplaint(formToObj(ev.target));
-  if(!obj.crimeCategory || !obj.crimeSubCategory){ toast("Select crime category and sub-category."); return false; }
+  const chosen = UI.newClass || { classification:'FIR', at:new Date().toISOString(), by:officerLabel() };
+  checkNarrationAgainstChoice(chosen.classification, obj.description).then(res=> createCaseFromComplaint(obj, chosen, res));
+  return false;
+}
+function createCaseFromComplaint(obj, chosen, res){
   const c = newCase();
+  setCaseClassification(c, chosen.classification, '', chosen.at, chosen.by, true);
+  if(res.classification !== chosen.classification) setCaseClassification(c, res.classification, res.reason);
   Object.assign(c.complaint, obj, {registered:true});
   if(!c.complaint.complaintNumber){
     // Next number for this year; counting cases would repeat a number after a case is deleted
@@ -2983,11 +3437,11 @@ function submitComplaint(ev){
     const used = DB.order.map(id=>DB.cases[id] && DB.cases[id].complaint.complaintNumber).filter(n=>n && n.startsWith(prefix)).map(n=>parseInt(n.slice(prefix.length),10)).filter(n=>!isNaN(n));
     c.complaint.complaintNumber = prefix + String((used.length ? Math.max(...used) : 0) + 1).padStart(3,'0');
   }
+  UI.newClass = null; UI.classifyHelp = null;
   saveDB();
   openCase(c.id);
-  setTab("bns");
-  toast("Complaint registered.");
-  return false;
+  setTab(firstPathTab(c));
+  toast(isNcr(c) ? "Complaint registered as an NCR case." : "Complaint registered as an FIR case.");
 }
 
 function saveComplaintEdits(ev, caseId){
@@ -2995,18 +3449,15 @@ function saveComplaintEdits(ev, caseId){
   const c = getCase(caseId);
   const obj = normaliseComplaint(formToObj(ev.target));
   if(ev.target.elements.idNumber && ev.target.elements.idNumber.disabled) obj.idNumber = '';
-  const typeChanged = (obj.crimeSubCategory||'') !== (c.complaint.crimeSubCategory||'') || (obj.crimeCategory||'') !== (c.complaint.crimeCategory||'');
-  Object.assign(c.complaint, obj);
-  if(typeChanged && c.bns.sections.length){
-    c.bns.confirmed = false;
+  checkNarrationAgainstChoice(c.classification, obj.description).then(res=>{
+    if(res.classification !== c.classification) setCaseClassification(c, res.classification, res.reason);
+    Object.assign(c.complaint, obj);
     saveDB();
-    toast("Crime type changed. Review the BNS sections for it and confirm again.");
-    setTab("bns");
-    return false;
-  }
-  saveDB();
-  toast("Complaint saved.");
-  setTab(c.fir.registered ? "fir" : "bns");
+    toast("Complaint saved.");
+    if(!isNcr(c) && c.fir.registered) setTab("fir");
+    else if(isNcr(c) && c.ncrCctnsCopied) setTab("ncr");
+    else setTab(firstPathTab(c));
+  });
   return false;
 }
 
@@ -3016,19 +3467,11 @@ function saveComplaintEdits(ev, caseId){
 
 /* ---- 9. CASE CLASSIFICATION / OVERVIEW ---- */
 /* ================= CASE WORKSPACE ================= */
-const TAB_DEFS = [
-  {id:"overview", label:"Overview"},
-  {id:"complaint", label:"Complaint"},
-  {id:"bns", label:"BNS sections"},
-  {id:"fir", label:"FIR"},
-  {id:"io", label:"Investigating officer"},
-  {id:"gd", label:"GD"},
-  {id:"firStatement", label:"FIR Writing Officer Statement"},
-];
+/* Tab order follows the case's path (regSteps), see nextTabId. */
 /* The tabs, drawn as a compact registration progress row: Overview, then the six steps in order. */
 function regNavHtml(c){
   const next = nextAction(c);
-  const steps = REG_STEPS.map((s, i)=>{
+  const steps = regSteps(c).map((s, i)=>{
     const done = s.done(c), active = UI.tab === s.id, isNext = next && next.tab === s.id;
     const mark = done ? ic('check') : `<span class="reg-dot" aria-hidden="true"></span>`;
     const state = done ? t('completed') : isNext ? t('next step') : t('not started');
@@ -3037,9 +3480,9 @@ function regNavHtml(c){
   }).join('');
   return `<nav class="reg-nav" role="tablist" aria-label="${t('Case navigation')}">
     <button type="button" role="tab" aria-selected="${UI.tab==='overview'}" class="reg-tab${UI.tab==='overview'?' is-active':''}" onclick="setTab('overview')">${ic('description')}<span>${t('Overview')}</span></button>
-    <button type="button" role="tab" aria-selected="${UI.tab==='diary'}" class="reg-tab${UI.tab==='diary'?' is-active':''}" onclick="setTab('diary')">${ic('menu_book')}<span>${t('Case diary')}</span></button>
+    ${isNcr(c) ? '' : `<button type="button" role="tab" aria-selected="${UI.tab==='diary'}" class="reg-tab${UI.tab==='diary'?' is-active':''}" onclick="setTab('diary')">${ic('menu_book')}<span>${t('Case diary')}</span></button>`}
     <span class="reg-divider" aria-hidden="true"></span>
-    <span class="reg-label">${t('Registration')}</span>
+    <span class="reg-label">${caseTypeBadge(c)}</span>
     ${steps}
   </nav>`;
 }
@@ -3236,10 +3679,15 @@ function renderCaseDiaryTab(c){
 }
 
 function renderCaseWorkspace(c){
+  // A tab from the other path (e.g. IO on an NCR case) is never shown
+  if(!caseTabs(c).includes(UI.tab)) UI.tab = 'overview';
   let body = "";
   switch(UI.tab){
     case "overview": body = renderOverview(c); break;
+    case "classification": body = renderClassificationTab(c); break;
     case "complaint": body = renderComplaintTab(c); break;
+    case "category": body = renderCategoryTab(c); break;
+    case "ncr": body = renderNcrTab(c); break;
     case "bns": body = renderBnsTab(c); break;
     case "fir": body = renderFirTab(c); break;
     case "io": body = renderIoTab(c); break;
@@ -3257,7 +3705,10 @@ function continueRegistration(caseId){
 function stepDetail(c, id){
   const p = c.complaint;
   switch(id){
+    case 'classification': return `${t(isNcr(c) ? 'Non-cognizable → NCR' : 'Cognizable → FIR')}${c.classifiedBy ? ` · ${esc(c.classifiedBy)}` : ''}`;
     case 'complaint': return p.complaintDate ? `${t('Registered')} ${shortDateTime(p.complaintDate, p.complaintTime)}` : '';
+    case 'category': return c.categoryConfirmed && p.crimeSubCategory ? `${esc(t(p.crimeCategory))} / ${esc(t(p.crimeSubCategory))}` : t('Not yet chosen');
+    case 'ncr': return c.ncr.number ? `NCR ${esc(c.ncr.number)} ${t('recorded from CCTNS')}` : c.ncrCctnsCopied ? t('Copied, CCTNS number pending') : t('Not yet prepared');
     case 'bns': return c.bns.confirmed ? sectionsShort(c) : (c.bns.sections.length ? `${c.bns.sections.length} ${t('suggested, not yet confirmed')}` : t('Not yet identified'));
     case 'fir': return c.fir.number ? `FIR ${esc(c.fir.number)} ${t('recorded from CCTNS')}` : c.fir.registered ? t('Prepared, CCTNS number pending') : t('Not yet prepared');
     case 'io': return c.io.assigned ? `${esc([c.io.rank, c.io.name].filter(Boolean).join(' '))}` : t('Not yet assigned');
@@ -3268,7 +3719,7 @@ function stepDetail(c, id){
 }
 function progressStepsHtml(c){
   const next = nextAction(c);
-  return `<ol class="progress-steps">${REG_STEPS.map(s=>{
+  return `<ol class="progress-steps">${regSteps(c).map(s=>{
     const done = s.done(c), isNext = next && next.tab===s.id;
     return `<li class="progress-step${done?' is-done':''}${isNext?' is-next':''}">
       <span class="progress-icon">${done ? ic('check') : isNext ? ic('dot') : ic('radio_button_unchecked')}</span>
@@ -3286,7 +3737,16 @@ function completionCardHtml(c){
       <div><div class="complete-kicker">${t('Case registration complete')}</div><h2 class="complete-title" id="complete-title-${c.id}">${caseTitle(c)}</h2></div>
     </div>
     <div class="complete-body">
-      <ul class="complete-list">
+      <ul class="complete-list">${isNcr(c) ? `
+        <li>${ic('check_circle')}<span>NCR ${esc(c.ncr.number)} ${t('recorded')}</span></li>
+        <li>${ic('check_circle')}<span>${t('BNS sections confirmed')}: ${esc(sectionsShort(c))}</span></li>
+        <li>${ic('check_circle')}<span>GD ${esc(c.gd.number)} ${t('recorded')}</span></li>
+      </ul>
+      <div class="complete-aside">
+        <div class="complete-aside-label">${t('Action taken')}</div>
+        <div class="complete-aside-value">${esc(t(c.ncr.actionTaken || 'Referred to Magistrate'))}</div>
+        <div class="caption" style="margin-top:var(--axial-space-8);">${t('No investigation without the Magistrate\u2019s order (BNSS 174).')}</div>
+      </div>` : `
         <li>${ic('check_circle')}<span>FIR ${esc(c.fir.number)} ${t('recorded')}</span></li>
         <li>${ic('check_circle')}<span>${t('BNS sections confirmed')}: ${esc(sectionsShort(c))}</span></li>
         <li>${ic('check_circle')}<span>${t('IO assigned')}: ${esc(io)}</span></li>
@@ -3297,7 +3757,7 @@ function completionCardHtml(c){
         <div class="complete-aside-label">${t('Investigation')}</div>
         <div class="complete-aside-value">${t('Case assigned to')} ${esc(io)}</div>
         <div class="caption" style="margin-top:var(--axial-space-8);">${esc(c.io.station || psName(c.complaint.policeStation))}</div>
-      </div>
+      </div>`}
     </div>
     <div class="complete-actions">
       ${UI.tab!=='overview' ? `<button type="button" class="axial-btn axial-btn--outline axial-btn--md" onclick="setTab('overview')">${t('View case summary')}</button>` : ''}
@@ -3316,8 +3776,8 @@ function renderOverview(c){
     <section class="case-header">
       <div class="case-header-top">
         <div style="min-width:0;">
-          <h1 class="case-title">${caseTitle(c)}</h1>
-          <div class="case-line">${[esc(t(p.crimeSubCategory||'Not classified')), esc(secs)].filter(Boolean).join(' · ')}</div>
+          <h1 class="case-title">${caseTypeBadge(c)}<span>${caseTitle(c)}</span></h1>
+          <div class="case-line">${[esc(t(isNcr(c) ? 'Non-cognizable' : (p.crimeSubCategory||'Not classified'))), esc(secs)].filter(Boolean).join(' · ')}</div>
           <div class="case-line case-line--muted">${[p.policeStation ? `${esc(psName(p.policeStation))} ${t('Police Station')}` : '', esc(p.district)].filter(Boolean).join(' · ')}</div>
         </div>
         <div class="case-header-actions">
@@ -3330,8 +3790,11 @@ function renderOverview(c){
       </div>
       <dl class="meta-grid">
         ${meta('Complainant', esc(p.complainantName))}
-        ${meta('Investigating officer', c.io.assigned ? esc([c.io.rank, c.io.name].filter(Boolean).join(' ')) : '')}
-        ${meta('FIR', c.fir.number ? esc(c.fir.number) : c.fir.registered ? t('CCTNS number pending') : '')}
+        ${isNcr(c)
+          ? `${meta('Action taken', esc(t(c.ncr.actionTaken || 'Referred to Magistrate')))}
+             ${meta('NCR', c.ncr.number ? esc(c.ncr.number) : c.ncrCctnsCopied ? t('CCTNS number pending') : '')}`
+          : `${meta('Investigating officer', c.io.assigned ? esc([c.io.rank, c.io.name].filter(Boolean).join(' ')) : '')}
+             ${meta('FIR', c.fir.number ? esc(c.fir.number) : c.fir.registered ? t('CCTNS number pending') : '')}`}
         ${meta('GD', c.gd.number ? esc(c.gd.number) : c.gd.generated ? t('CCTNS number pending') : '')}
       </dl>
     </section>
@@ -3343,7 +3806,7 @@ function renderOverview(c){
     </div>`}
 
     <section class="section-card">
-      <div class="section-card-head"><h2 class="section-card-title">${t('Registration progress')}</h2><span class="caption">${REG_STEPS.filter(s=>s.done(c)).length} ${t('of')} ${REG_STEPS.length} ${t('complete')}</span></div>
+      <div class="section-card-head"><h2 class="section-card-title">${t('Registration progress')}</h2><span class="caption">${regSteps(c).filter(s=>s.done(c)).length} ${t('of')} ${regSteps(c).length} ${t('complete')}</span></div>
       <div class="section-card-body">${progressStepsHtml(c)}</div>
     </section>
   </div>`;
@@ -3354,14 +3817,75 @@ function deleteCaseConfirm(id){
     .then(ok=>{ if(ok) deleteCase(id); });
 }
 
+/* ================= CATEGORY & SUB-CATEGORY (FIR path) =================
+   Two dropdowns; the sub-category list follows the category. Pre-filled from the narration where
+   the wording makes it clear, but nothing is saved until the officer confirms. */
+function renderCategoryTab(c){
+  const p = c.complaint;
+  let cat = p.crimeCategory, sub = p.crimeSubCategory, prefilled = !c.categoryConfirmed && !!sub;
+  if(!sub){
+    const g = classifyCrimeFromText(p.description);
+    if(g){ cat = g.category; sub = g.subCategory; prefilled = true; }
+  }
+  return `
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">${t('Category & Sub-category')}</h1>
+      <p class="page-sub">${t('Decides the suggested BNS sections.')}</p>
+    </div>
+  </div>
+  <form id="category-form" class="section-card" style="max-width:760px;" novalidate onsubmit="return saveCategory(event, '${c.id}')">
+    <div class="quiet-panel-body stack-16" style="padding:var(--axial-space-20);">
+      ${prefilled ? banner('info', `<span>${t('Filled from the narration when the wording makes it clear. Check both before saving; the choice is yours.')}</span>`) : ''}
+      <div class="form-grid">
+        <div class="field">
+          <label for="cc-category">${t('Crime category')}</label>
+          <select class="axial-select" name="crimeCategory" id="cc-category" onchange="updateSubcategoryOptions(this)" required>
+            <option value="">${t('Select category')}</option>
+            ${Object.keys(CRIME_TAXONOMY).map(x=>`<option value="${x}" ${cat===x?'selected':''}>${x}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field">
+          <label for="cc-subcategory">${t('Crime sub-category')}</label>
+          <select class="axial-select" name="crimeSubCategory" id="cc-subcategory" required>
+            <option value="">${t('Select sub-category')}</option>
+            ${cat && CRIME_TAXONOMY[cat] ? CRIME_TAXONOMY[cat].map(x=>`<option value="${x}" ${sub===x?'selected':''}>${x}</option>`).join("") : ""}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="task-foot">
+      <span class="caption">${c.categoryConfirmed ? `${ic('check_circle')} ${t('Confirmed')}` : t('Officer to confirm')}</span>
+      <button type="button" data-submit onclick="submitComplaintForm(this)" class="axial-btn axial-btn--primary axial-btn--md btn-arrow"><span>${t('Confirm & continue')}</span>${ic('arrow_forward')}</button>
+    </div>
+  </form>`;
+}
+function saveCategory(ev, caseId){
+  if(ev && ev.preventDefault) ev.preventDefault();
+  const c = getCase(caseId);
+  const obj = formToObj(ev.target);
+  if(!obj.crimeCategory || !obj.crimeSubCategory){ toast("Select crime category and sub-category."); return false; }
+  const typeChanged = obj.crimeSubCategory !== c.complaint.crimeSubCategory || obj.crimeCategory !== c.complaint.crimeCategory;
+  Object.assign(c.complaint, { crimeCategory: obj.crimeCategory, crimeSubCategory: obj.crimeSubCategory });
+  c.categoryConfirmed = true;
+  if(typeChanged && c.bns.sections.length){
+    c.bns.confirmed = false;
+    saveDB();
+    toast("Crime type changed. Review the BNS sections for it and confirm again.");
+  } else saveDB();
+  setTab('bns');
+  return false;
+}
+
 /* ---- COMPLAINT TAB ---- */
 /* ================= 2. SELECT BNS SECTION ================= */
 /* Automatically identify BNS sections as soon as the crime category/sub-category are known,
    so the officer lands on a pre-filled list instead of an empty one. Re-triggers if the
    classification changes while the list is still empty. Still fully editable afterwards. */
 function maybeAutoIdentifyBns(c){
-  const key = (c.complaint.crimeCategory||"") + "|" + (c.complaint.crimeSubCategory||"");
-  if(c.bns.sections.length===0 && c.complaint.crimeCategory && c.complaint.crimeSubCategory && (c.bns.autoIdentifyFor||"") !== key){
+  const key = isNcr(c) ? "NCR" : (c.complaint.crimeCategory||"") + "|" + (c.complaint.crimeSubCategory||"");
+  const ready = isNcr(c) || (c.categoryConfirmed && c.complaint.crimeCategory && c.complaint.crimeSubCategory);
+  if(c.bns.sections.length===0 && ready && (c.bns.autoIdentifyFor||"") !== key){
     c.bns.autoIdentifyFor = key;
     saveDB();
     setTimeout(()=>identifyBnsSections(c.id), 30);
@@ -3374,13 +3898,13 @@ function maybeAutoIdentifyBns(c){
    doesn't fit, and must explicitly confirm before the FIR can be registered. */
 function identifyBnsSections(caseId){
   const c = getCase(caseId);
-  if(!c.complaint.crimeCategory || !c.complaint.crimeSubCategory){
-    toast("Set the crime category and sub-category on the Complaint tab first.");
+  if(!isNcr(c) && (!c.complaint.crimeCategory || !c.complaint.crimeSubCategory)){
+    toast("Choose the crime category and sub-category first.");
     return;
   }
   const btn = document.getElementById('bns-identify-btn');
   if(btn){ btn.disabled = true; btn.innerHTML = `${ic('hourglass_top')}<span>Identifying applicable sections…</span>`; }
-  const matches = localIdentifyBnsSections(c);
+  const matches = isNcr(c) ? localIdentifyNcrSections(c) : localIdentifyBnsSections(c);
   let added = 0;
   matches.forEach(item=>{
     if(!c.bns.sections.some(s=>s.code===item.code)){
@@ -3391,9 +3915,41 @@ function identifyBnsSections(caseId){
   if(added>0) c.bns.confirmed = false;
   saveDB();
   render();
+  if(isNcr(c)){
+    toast(added>0 ? `Added ${added} non-cognizable section(s) found in the complaint. Review them, then confirm.`
+      : matches.length ? "No new sections to add." : "No non-cognizable offence found in the complaint. Search and add the sections.");
+    return;
+  }
   toast(added>0
     ? `Added ${added} section(s) applicable to ${c.complaint.crimeSubCategory}. Review and remove any that don't apply, then confirm.`
     : "No new sections to add. Everything matching this crime type is already selected.");
+}
+/* NCR path: the same keyword engine, read from the complaint, suggesting non-cognizable sections only. */
+function localIdentifyNcrSections(c){
+  const codes = [...new Set(assessCognizance(c.complaint.description).nonCognizable.flatMap(r=>r.sections))];
+  return codes.map(code=>BNS_LIBRARY.find(b=>b.code===code)).filter(s=>s && s.cognizable===false);
+}
+/* Section check: a cognizable section on an NCR, or only non-cognizable sections on an FIR. */
+function sectionMismatch(c){
+  if(isNcr(c)){
+    const cog = c.bns.sections.filter(s=>sectionCognizable(s)===true);
+    return cog.length ? { to:'FIR', sections:cog } : null;
+  }
+  const known = c.bns.sections.map(sectionCognizable).filter(f=>f!==null);
+  return known.length && known.every(f=>f===false) ? { to:'NCR', sections:[] } : null;
+}
+function sectionMismatchBanner(c){
+  const m = sectionMismatch(c);
+  if(!m) return '';
+  const text = m.to==='FIR'
+    ? `${t('A cognizable section is selected:')} ${m.sections.map(s=>esc(sectionLabel(s.code))).join(', ')}. ${t('This complaint looks cognizable — an FIR should be registered.')}`
+    : `${t('Every chosen section is non-cognizable.')} ${t('This complaint looks non-cognizable.')}`;
+  return `<div id="section-mismatch">${banner('warning', `<span>${text}</span><div class="banner-links"><button type="button" class="axial-btn axial-btn--outline axial-btn--sm" onclick="switchCasePath('${c.id}','${m.to}')">${t(m.to==='FIR' ? 'Switch to FIR' : 'Switch to NCR')}</button></div>`)}</div>`;
+}
+function cognizableTag(s){
+  const f = sectionCognizable(s);
+  if(f===null) return '';
+  return `<span class="tag-cog tag-cog--${f?'yes':'no'}">${t(f ? 'Cognizable' : 'Non-cognizable')}</span>`;
 }
 function bnsSaveContinue(caseId){
   const c = getCase(caseId);
@@ -3401,7 +3957,7 @@ function bnsSaveContinue(caseId){
   const wasConfirmed = c.bns.confirmed;
   c.bns.confirmed = true;
   // If the FIR was already prepared, redraft its "action taken" text, unless the officer rewrote it
-  if(c.fir.registered && /^The information received discloses the commission of a cognizable offence under /.test(c.fir.narrative||'')){
+  if(!isNcr(c) && c.fir.registered && /^The information received discloses the commission of a cognizable offence under /.test(c.fir.narrative||'')){
     c.fir.narrative = buildFirNarrative(c);
   }
   saveDB();
@@ -3465,22 +4021,22 @@ function bnsManualForm(c, st){
           </div>
         </div>
       </div>
-      <div id="bns-custom-msg" class="bns-manual-msg" aria-live="polite">${bnsManualMessage(st, match)}</div>
+      <div id="bns-custom-msg" class="bns-manual-msg" aria-live="polite">${bnsManualMessage(st, match, c)}</div>
       <div class="actions actions--flush">
         <button type="button" class="axial-btn axial-btn--outline axial-btn--md" onclick="toggleBnsManual('${c.id}', false)">${t('Cancel')}</button>
         <button type="button" data-submit id="bns-custom-add" onclick="submitFormFrom(this)" class="axial-btn axial-btn--primary axial-btn--md"${canAdd?'':' disabled'}>${ic('add')}<span>${t('Add section')}</span></button>
       </div>
     </form>`;
 }
-function bnsManualMessage(st, match){
+function bnsManualMessage(st, match, c){
   if(st.error) return `<span class="field-message">${ic('error')}<span>${esc(st.error)}</span></span>`;
-  if(match) return `<span class="caption">${ic('info')}<span>${t('This section is in the list:')} ${esc(match.title)}.</span></span>`;
+  if(match) return `<span class="caption">${ic('info')}<span>${t('This section is in the list:')} ${esc(match.title)}.${c && isNcr(c) && match.cognizable ? ` ${t('It is cognizable.')}` : ''}</span></span>`;
   return '';
 }
 function bnsResultsBody(c, query){
   const q = (query||"").trim().toLowerCase();
   if(!q) return '';
-  const all = BNS_LIBRARY.filter(s=> s.code.toLowerCase().includes(q) || s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
+  const all = BNS_LIBRARY.filter(s=> (!isNcr(c) || s.cognizable===false) && (s.code.toLowerCase().includes(q) || s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q)));
   if(all.length===0) return `<div class="bns-results-note">${t('No matching sections.')}</div>`;
   const shown = all.slice(0, BNS_RESULTS_LIMIT);
   return bnsResultsHtml(c, shown, q) + (all.length > shown.length
@@ -3492,7 +4048,7 @@ function bnsResultsHtml(c, list, query){
     const already = selectedCodes.includes(s.code);
     return `<div class="check-item">
       <div>
-        <div class="label-def">${esc(sectionLabel(s.code))}: ${esc(s.title)}</div>
+        <div class="label-def">${esc(sectionLabel(s.code))}: ${esc(s.title)} ${cognizableTag(s)}</div>
         <div class="caption">${esc(s.desc)}</div>
       </div>
       <button type="button" class="axial-btn ${already?'axial-btn--ghost':'axial-btn--outline'} axial-btn--sm" ${already?'disabled':''} onclick="addBnsSection('${c.id}','${esc(s.code)}')">${already?ic('check')+'<span>'+t('Added')+'</span>':ic('add')+'<span>'+t('Add')+'</span>'}</button>
@@ -3509,13 +4065,15 @@ function renderBnsResults(caseId){ const el = document.getElementById('bns-searc
 function renderBnsTab(c){
   maybeAutoIdentifyBns(c);
   const p = c.complaint, st = bnsAddState(c), n = c.bns.sections.length;
-  const hasClass = p.crimeCategory && p.crimeSubCategory;
-  const emptyMsg = hasClass ? `${t('Identifying applicable sections for')} ${esc(t(p.crimeSubCategory))}…` : t('Set the crime category and sub-category on the Complaint tab, or add sections below.');
+  const ncr = isNcr(c);
+  const hasClass = ncr || (c.categoryConfirmed && p.crimeCategory && p.crimeSubCategory);
+  const emptyMsg = ncr ? t('No non-cognizable offence found in the complaint yet. Search and add the sections below.')
+    : hasClass ? `${t('Identifying applicable sections for')} ${esc(t(p.crimeSubCategory))}…` : t('Choose the crime category first, or add sections below.');
   const rows = c.bns.sections.map(s=>`
     <li class="sec-row">
       <div class="sec-code">${esc(sectionLabel(s.code))}</div>
       <div style="min-width:0;">
-        <div class="sec-title"><span>${esc(s.title)}</span>${s.suggested ? `<span class="tag-suggested">${t('Suggested')}</span>` : ''}${s.custom ? `<span class="tag-suggested">${t('Added manually')}</span>` : ''}</div>
+        <div class="sec-title"><span>${esc(s.title)}</span>${cognizableTag(s)}${s.suggested ? `<span class="tag-suggested">${t('Suggested')}</span>` : ''}${s.custom ? `<span class="tag-suggested">${t('Added manually')}</span>` : ''}</div>
         ${s.desc ? `<div class="sec-desc">${esc(s.desc)}</div>` : ''}
       </div>
       <button type="button" class="axial-btn axial-btn--text-danger axial-btn--sm" aria-label="${t('Remove')} ${esc(sectionLabel(s.code))}" onclick="removeBnsSection('${c.id}','${esc(s.code)}')">${t('Remove')}</button>
@@ -3524,12 +4082,14 @@ function renderBnsTab(c){
   <div class="page-head">
     <div>
       <h1 class="page-title">${t('BNS sections')}</h1>
-      <p class="page-sub">${t('Crime classification')}: <strong style="color:var(--axial-text-primary); font-weight:var(--axial-font-weight-medium);">${esc(t(p.crimeCategory||'Not set'))} / ${esc(t(p.crimeSubCategory||'Not set'))}</strong>
-        <button type="button" class="auth-link" style="margin-left:var(--axial-space-8);" onclick="setTab('complaint')">${t('Change')}</button></p>
+      ${ncr ? `<p class="page-sub">${t('NCR case: non-cognizable sections only.')}</p>`
+      : `<p class="page-sub">${t('Crime classification')}: <strong style="color:var(--axial-text-primary); font-weight:var(--axial-font-weight-medium);">${esc(t(p.crimeCategory||'Not set'))} / ${esc(t(p.crimeSubCategory||'Not set'))}</strong>
+        <button type="button" class="auth-link" style="margin-left:var(--axial-space-8);" onclick="setTab('category')">${t('Change')}</button></p>`}
     </div>
   </div>
   <div class="stack-16">
-    ${banner('info', `<span>${t('Suggested sections are based on the selected crime type. Review them against the BNS before confirming.')}</span>`)}
+    ${sectionMismatchBanner(c)}
+    ${banner('info', `<span>${t(ncr ? 'Suggested sections are the non-cognizable offences found in the complaint. Review them against the BNS before confirming.' : 'Suggested sections are based on the selected crime type. Review them against the BNS before confirming.')}</span>`)}
     <section class="section-card">
       <div class="section-card-head">
         <div style="display:flex; align-items:center; gap:var(--axial-space-12);"><h2 class="section-card-title">${t('Selected sections')}</h2><span class="pill pill--neutral">${n} ${t('selected')}</span></div>
@@ -3545,7 +4105,7 @@ function renderBnsTab(c){
         ? `<span class="action-bar-status">${ic('check_circle')}<span>${t('Sections confirmed')}</span></span>`
         : n ? `<span class="action-bar-status">${ic('check')}<span>${n} ${t(n>1 ? 'sections selected' : 'section selected')}</span></span>`
             : `<span class="action-bar-status is-muted">${t('Select at least one section')}</span>`}
-      <button type="button" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${n?'':'disabled'} onclick="bnsSaveContinue('${c.id}')"><span>${t(c.bns.confirmed ? 'Continue to FIR' : 'Confirm sections & continue')}</span>${ic('arrow_forward')}</button>
+      <button type="button" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${n?'':'disabled'} onclick="bnsSaveContinue('${c.id}')"><span>${t(c.bns.confirmed ? (ncr ? 'Continue to NCR' : 'Continue to FIR') : 'Confirm sections & continue')}</span>${ic('arrow_forward')}</button>
     </div>
   </div>`;
 }
@@ -3573,7 +4133,7 @@ function onBnsManualInput(caseId, key, value){
   const titleEl = document.getElementById('bns-custom-title');
   if(key==='code' && match && titleEl && (!st.title.trim() || st.titleAuto)){ st.title = match.title; st.titleAuto = true; titleEl.value = match.title; }
   if(key==='title') st.titleAuto = false;
-  const msg = document.getElementById('bns-custom-msg'); if(msg){ msg.innerHTML = bnsManualMessage(st, match); applyTranslations(msg); }
+  const msg = document.getElementById('bns-custom-msg'); if(msg){ msg.innerHTML = bnsManualMessage(st, match, c); applyTranslations(msg); }
   const codeField = document.getElementById('bns-custom-code');
   if(codeField){ codeField.closest('.field').classList.toggle('field-error', !!st.error); if(st.error) codeField.setAttribute('aria-invalid','true'); else codeField.removeAttribute('aria-invalid'); }
   const btn = document.getElementById('bns-custom-add'); if(btn) btn.disabled = !(code && st.title.trim() && !st.error);
@@ -3615,6 +4175,15 @@ function confirmBns(caseId){
 }
 
 /* ================= 3 & 4. REGISTER FIR / FIR COPY ================= */
+/* BNSS 173(3): for a cognizable offence punishable with 3 years or more but less than 7, a preliminary
+   enquiry is possible. A note only; it never blocks the FIR. Judged on the heaviest selected section. */
+function firPrelimNote(c){
+  const years = c.bns.sections.map(s=>{ const lib = BNS_LIBRARY.find(b=>b.code===s.code); return lib ? lib.maxYears : null; }).filter(y=>typeof y==='number');
+  if(!years.length) return '';
+  const max = Math.max(...years);
+  if(max < 3 || max >= 7) return '';
+  return `<p class="prelim-note" id="fir-prelim-note">${ic('info')}<span>${t('Preliminary enquiry possible within 14 days with DSP-rank permission (BNSS 173(3)).')}</span></p>`;
+}
 function renderFirTab(c){
   if(c.fir.registered && !c.bns.confirmed){
     return `${banner('warning', `<span>${t('The BNS sections were changed after the FIR was prepared. Confirm them so the FIR text uses the final sections.')}</span><div class="banner-links"><button type="button" class="axial-btn axial-btn--outline axial-btn--sm" onclick="setTab('bns')">${t('Review sections')}</button></div>`, 'margin-bottom:var(--axial-space-16);')}${renderFirDocument(c)}`;
@@ -3736,6 +4305,7 @@ function renderFirReview(c){
         </div>
       </div>
       <div id="fir-missing-summary">${missingSummaryHtml(c, showErrors)}</div>
+      ${firPrelimNote(c)}
       <form id="fir-review-form" class="form-surface" novalidate onsubmit="return false;" oninput="onFirReviewInput('${c.id}')" onchange="onFirReviewInput('${c.id}')">
         ${formSection('01', 'Police station', '', `
           <div class="form-grid">
@@ -3838,6 +4408,7 @@ function renderFirDocument(c){
           <button type="button" id="fir-continue" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${s.numbered?'':'disabled'} onclick="saveAndContinue('${c.id}','fir')"><span>${t('Continue to IO assignment')}</span>${ic('arrow_forward')}</button>
         </div>
       </section>
+      ${firPrelimNote(c)}
 
       <section class="quiet-panel">
         <div class="quiet-panel-head">
@@ -4002,6 +4573,7 @@ function firDocHtml(m){
           ${'text' in s ? `<p class="fir-text">${s.text!=null ? esc(s.text) : `<span class="fir-missing">${ic('warning')}Not recorded</span>`}</p>` : ''}
         </div>
       </section>`).join('')}
+    ${m.footer ? `<p class="fir-doc-foot">${esc(m.footer)}</p>` : ''}
   </div>`;
 }
 function firDocText(m){
@@ -4014,6 +4586,7 @@ function firDocText(m){
     if(s.heading) out += `\n${s.no}. ${s.heading}\n` + lines.map(l=>`   ${l}`).join('\n') + '\n';
     else out += `\n${s.no}. ${lines[0]||''}\n` + lines.slice(1).map(l=>`   ${l}`).join('\n') + (lines.length>1 ? '\n' : '');
   });
+  if(m.footer) out += `\n${m.footer}\n`;
   return out;
 }
 function firCctnsTextEnglish(c){ return firDocText(firDocModel(c)); }
@@ -4242,18 +4815,19 @@ function fieldWithMic(label, elementId, value, oninputAttr, opts){
 }
 
 /* Advance the case workspace to the next tab in the standard workflow order */
-function nextTabId(currentId){
-  const idx = TAB_DEFS.findIndex(t=>t.id===currentId);
-  return (idx>=0 && TAB_DEFS[idx+1]) ? TAB_DEFS[idx+1].id : null;
+function nextTabId(currentId, c){
+  const ids = c ? regSteps(c).map(s=>s.id) : [];
+  const idx = ids.indexOf(currentId);
+  return (idx>=0 && ids[idx+1]) ? ids[idx+1] : null;
 }
 function saveAndContinue(caseId, currentTabId){
-  const next = nextTabId(currentTabId);
+  const next = nextTabId(currentTabId, getCase(caseId));
   if(next){ UI.tab = next; }
   render(); toTop();
 }
 function continueButton(caseId, currentTabId, opts){
   opts = opts || {};
-  const next = nextTabId(currentTabId);
+  const next = nextTabId(currentTabId, getCase(caseId));
   if(!next) return "";
   const label = opts.label || ("Save & continue");
   const handler = opts.onclick || `saveAndContinue('${caseId}','${currentTabId}')`;
@@ -4265,6 +4839,240 @@ function downloadText(filename, text){
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = filename; a.click();
   embedHint('download');
+}
+
+/* ================= NCR (non-cognizable report) =================
+   Form on the left, the NCR as it will read on the right, with the same copy / download / print
+   toolbar and CCTNS hand-off as the FIR. Everything possible is filled from the complaint and the
+   officer profile. The NCR number is entered by hand after the CCTNS upload, like the FIR number. */
+const NCR_FIXED_LINE = "Copy given to complainant free of cost. Complainant referred to the Magistrate. No investigation without the Magistrate's order (BNSS 174).";
+const NCR_FIXED_LINE_HI = "प्रति शिकायतकर्ता को निःशुल्क दी गई। शिकायतकर्ता को मजिस्ट्रेट के पास भेजा गया। मजिस्ट्रेट के आदेश के बिना कोई विवेचना नहीं की जाएगी (BNSS 174)।";
+/* Fills what the NCR can take from elsewhere, once. Brief facts and the entering officer fall back to the
+   complaint and the profile at read time, so a later correction there still reaches an untouched NCR. */
+function ensureNcrDefaults(c){
+  const n = c.ncr;
+  if(!n.date){ n.date = nowDate(); n.time = nowTime(); saveDB(); }
+}
+function ncrOfficer(c){ const o = LOGGED_IN_OFFICER || {}; return { name: c.ncr.enteringOfficer || o.name || '', rank: c.ncr.enteringOfficerRank || o.rank || '' }; }
+function ncrBriefFacts(c){ return c.ncr.briefFacts || c.complaint.description || ''; }
+function ncrDocModel(c){
+  const p = c.complaint, n = c.ncr;
+  const secs = c.bns.sections.map(s=>s.code);
+  const bns = secs.filter(x=>!/^it act/i.test(x)), it = secs.filter(x=>/^it act/i.test(x)).map(x=>x.replace(/^it act\s*/i,''));
+  const V = (x)=> (x==null || String(x).trim()==='') ? null : String(x).trim();
+  const genderAge = [V(p.age) ? `${p.age} years` : null, V(p.gender)].filter(Boolean).join(', ') || null;
+  const off = ncrOfficer(c);
+  return {
+    title: "NON-COGNIZABLE REPORT (NCR)",
+    subtitle: "(Information of a non-cognizable offence, Section 174 of the Bharatiya Nagarik Suraksha Sanhita, 2023)",
+    sections: [
+      { no:"1", rows:[ ["District", V(p.district)], ["Police station", V(psName(p.policeStation))], ["Year", (n.date||nowDate()).slice(0,4)],
+                       ["NCR No.", V(n.number), "To be entered after CCTNS upload"], ["Date and time of NCR", n.date ? `${docDate(n.date)}, ${n.time||''}`.replace(/, $/,'') : null] ] },
+      { no:"2", heading:"Acts and sections", rows:[
+          ...(bns.length ? [["Bharatiya Nyaya Sanhita, 2023", bns.join(', ')]] : []),
+          ...(it.length ? [["Information Technology Act, 2000", it.join(', ')]] : []),
+          ...(!secs.length ? [["Sections", null]] : []) ] },
+      { no:"3", heading:"Occurrence", rows:[
+          ["Day and date", V(p.dateOfIncident) ? `${docDay(p.dateOfIncident)}, ${docDate(p.dateOfIncident)}` : null],
+          ["Time", V(p.timeOfIncident), "Not known"],
+          ["Information received at P.S.", V(p.complaintDate) ? `${docDate(p.complaintDate)}, ${p.complaintTime||''}`.replace(/, $/,'') : null] ] },
+      { no:"4", heading:"Place of occurrence", rows:[["Address", V(p.placeOfIncident)]] },
+      { no:"5", heading:"Complainant / informant", rows:[
+          ["Name", V(p.complainantName)], ["Father's / husband's name", V(p.guardianName)], ["Age and gender", genderAge],
+          ["Address", V(p.address)], ["Mobile", V(p.mobile), "Not stated"] ] },
+      { no:"6", heading:"Accused (if known)", rows:[["", V(n.accused), "Not known"]] },
+      { no:"7", heading:"Brief facts", text: V(ncrBriefFacts(c)) },
+      { no:"8", heading:"Entering officer", rows:[["Name and rank", V([off.rank, off.name].filter(Boolean).join(' '))]] },
+      { no:"9", heading:"Action taken", text: V(n.actionTaken) },
+    ],
+    footer: NCR_FIXED_LINE
+  };
+}
+function ncrTextHindi(c){
+  const p = c.complaint, n = c.ncr, off = ncrOfficer(c);
+  const action = (!n.actionTaken || n.actionTaken==='Referred to Magistrate') ? 'मजिस्ट्रेट को संदर्भित किया गया' : n.actionTaken;
+  let out = `असंज्ञेय अपराध रिपोर्ट (NCR)\n(भारतीय नागरिक सुरक्षा संहिता, 2023 की धारा 174 के अंतर्गत असंज्ञेय अपराध की सूचना)\n\n`;
+  out += `थाना: ${hiVal(psName(p.policeStation))}, जनपद ${hiVal(p.district)}\n`;
+  out += `NCR संख्या: ${hiVal(n.number)}\n`;
+  out += `दिनांक: ${hiDate(n.date)}\n`;
+  out += `समय: ${hiTimeStr(n.time)}\n`;
+  out += `धारा: ${hiSections(c)}\n`;
+  out += `घटना की तारीख और समय: ${hiDate(p.dateOfIncident)}${p.timeOfIncident ? ', '+hiTimeStr(p.timeOfIncident) : ''}\n`;
+  out += `घटना का स्थान: ${hiVal(p.placeOfIncident)}\n\n`;
+  out += `शिकायतकर्ता: ${hiVal(p.complainantName)}`;
+  if(p.guardianName) out += `, ${hiRelationship(relFor(c))} ${p.guardianName}`;
+  if(p.age) out += `, उम्र लगभग ${p.age} वर्ष`;
+  if(p.address) out += `, निवासी ${p.address}`;
+  if(p.mobile) out += `, मोबाइल ${p.mobile}`;
+  out += `\nअभियुक्त (यदि ज्ञात हो): ${hiVal(n.accused, 'ज्ञात नहीं')}\n\n`;
+  out += `संक्षिप्त तथ्य:\n${hiVal(ncrBriefFacts(c))}\n\n`;
+  out += `प्रविष्टि करने वाला अधिकारी: ${hiVal([off.rank, off.name].filter(Boolean).join(' '))}\n`;
+  out += `की गई कार्रवाई: ${action}\n\n`;
+  out += `${NCR_FIXED_LINE_HI}\n\n`;
+  out += `शिकायतकर्ता के हस्ताक्षर: __________________\nप्रविष्टि करने वाले अधिकारी के हस्ताक्षर: __________________\n`;
+  return out;
+}
+function ncrCctnsText(c){ return UI_LANG === "hi" ? ncrTextHindi(c) : firDocText(ncrDocModel(c)); }
+function ncrPreviewHtml(c){
+  return UI_LANG==='hi'
+    ? `<pre class="doc-page doc-pre" id="ncr-sheet-body">${esc(ncrCctnsText(c))}</pre>`
+    : `<div class="doc-page" id="ncr-sheet-body">${firDocHtml(ncrDocModel(c))}</div>`;
+}
+function refreshNcrPreview(caseId){
+  const c = getCase(caseId);
+  const el = document.getElementById('ncr-sheet-body');
+  if(el){ if(UI_LANG==='hi') el.textContent = ncrCctnsText(c); else el.innerHTML = firDocHtml(ncrDocModel(c)); }
+  syncNcrTaskCard(c);
+}
+function updateNcrField(caseId, key, value){
+  const c = getCase(caseId);
+  c.ncr[key] = value;
+  // The entering officer is usually the officer logged in: remember the name for the next case
+  if((key==='enteringOfficer' || key==='enteringOfficerRank') && LOGGED_IN_OFFICER){
+    const o = ncrOfficer(c);
+    saveOfficerProfile(key==='enteringOfficer' ? value : o.name, key==='enteringOfficerRank' ? value : o.rank);
+  }
+  saveDB();
+  refreshNcrPreview(caseId);
+  if(key==='number'){
+    const title = caseTitle(c);
+    ['ncr-card-title','topbar-title'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = title; });
+    document.querySelectorAll(`[data-case-title="${caseId}"]`).forEach(el=>{ el.innerHTML = title; });
+  }
+}
+function copyNcrText(caseId){
+  const c = getCase(caseId);
+  copyToClipboard(ncrCctnsText(c));
+  const first = !c.ncrCctnsCopied;
+  c.ncrCctnsCopied = true; c.ncr.prepared = true; saveDB();
+  toast("NCR text copied for CCTNS.");
+  if(first && UI.tab==='ncr') render();
+}
+function downloadNcr(caseId){
+  const c = getCase(caseId);
+  downloadText('NCR_' + (c.ncr.number||'draft').replace(/\//g,'_') + '.txt', ncrCctnsText(c));
+}
+function ncrTaskState(c){
+  const copied = !!c.ncrCctnsCopied, numbered = !!String(c.ncr.number||'').trim();
+  return { copied, numbered, current: numbered ? 0 : (copied ? 2 : 1) };
+}
+function syncNcrTaskCard(c){
+  const s = ncrTaskState(c);
+  const step2 = document.getElementById('ncr-step-2');
+  if(step2){ step2.classList.toggle('is-done', s.numbered); step2.classList.toggle('is-current', s.current===2); }
+  const mark = document.getElementById('ncr-step-2-mark'); if(mark) mark.innerHTML = s.numbered ? ic('check') : '2';
+  const btn = document.getElementById('ncr-continue'); if(btn) btn.disabled = !s.numbered;
+  const hint = document.getElementById('ncr-next-hint'); if(hint) hint.textContent = s.numbered ? t('Next: prepare the GD entry.') : t('Continue once CCTNS has given the NCR number.');
+  const pill = document.getElementById('ncr-cctns-pill');
+  if(pill){ pill.className = 'pill ' + (s.numbered ? 'pill--success' : 'pill--accent'); pill.innerHTML = s.numbered ? ic('check_circle')+t('In CCTNS') : ic('clock')+t('CCTNS pending'); }
+}
+function renderNcrTab(c){
+  if(!c.bns.confirmed){
+    return `<div class="page-head"><div><h1 class="page-title">${t('NCR')}</h1></div></div>
+      ${banner('warning', `<span>${t('Confirm BNS sections before preparing the NCR.')}</span><div class="banner-links"><button type="button" class="axial-btn axial-btn--outline axial-btn--sm" onclick="setTab('bns')">${t('Go to BNS sections')}</button></div>`)}`;
+  }
+  ensureNcrDefaults(c);
+  const p = c.complaint, n = c.ncr, s = ncrTaskState(c), off = ncrOfficer(c);
+  const cls = (k, done)=> done ? ' is-done' : (s.current===k ? ' is-current' : '');
+  const on = (key)=> `updateNcrField('${c.id}','${key}', this.value)`;
+  const row = (label, value)=> `<dt>${label}</dt><dd>${value ? esc(value) : `<span class="fir-missing">${ic('warning')}${t('Not recorded')}</span>`}</dd>`;
+  return `
+  <div class="split">
+    <div class="split-main print-hide">
+      ${sectionMismatchBanner(c)}
+      <section class="task-card" aria-labelledby="ncr-task-title">
+        <div class="task-head">
+          <div>
+            <h1 class="task-title" id="ncr-task-title">${t('NCR for CCTNS')}</h1>
+            <p class="task-sub"><span id="ncr-card-title">${caseTitle(c)}</span></p>
+          </div>
+          <span class="pill ${s.numbered ? 'pill--success' : 'pill--accent'}" id="ncr-cctns-pill">${s.numbered ? ic('check_circle')+t('In CCTNS') : ic('clock')+t('CCTNS pending')}</span>
+        </div>
+        <ol class="task-steps">
+          <li class="task-step${cls(1, s.copied)}">
+            <span class="task-mark">${s.copied ? ic('check') : '1'}</span>
+            <div class="task-step-body">
+              <div class="task-step-title">${t('Copy NCR into CCTNS')}</div>
+              ${s.copied
+                ? `<p class="task-ok">${ic('check_circle')}<span>${t('Copied. Paste the NCR into CCTNS.')}</span></p>
+                   <button type="button" class="axial-btn axial-btn--ghost axial-btn--sm" onclick="copyNcrText('${c.id}')">${ic('content_copy')}<span>${t('Copy again')}</span></button>`
+                : `<p class="task-step-text">${t('Check the details below and the preview first.')}</p>
+                   <button type="button" class="axial-btn axial-btn--primary axial-btn--md" id="ncr-copy-main" onclick="copyNcrText('${c.id}')">${ic('content_copy')}<span>${t('Copy NCR for CCTNS')}</span></button>`}
+            </div>
+          </li>
+          <li class="task-step${cls(2, s.numbered)}" id="ncr-step-2">
+            <span class="task-mark" id="ncr-step-2-mark">${s.numbered ? ic('check') : '2'}</span>
+            <div class="task-step-body">
+              <div class="task-step-title">${t('Enter NCR number received from CCTNS')}</div>
+              <div class="field">
+                <label for="ncr-number-input" class="sr-only">${t('NCR number from CCTNS')}</label>
+                <input class="axial-input" id="ncr-number-input" autocomplete="off" placeholder="e.g. 0012/${(n.date||'').slice(0,4) || new Date().getFullYear()}" value="${esc(n.number)}" oninput="${on('number')}">
+              </div>
+            </div>
+          </li>
+        </ol>
+        <div class="task-foot">
+          <span class="caption" id="ncr-next-hint">${s.numbered ? t('Next: prepare the GD entry.') : t('Continue once CCTNS has given the NCR number.')}</span>
+          <button type="button" id="ncr-continue" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${s.numbered?'':'disabled'} onclick="saveAndContinue('${c.id}','ncr')"><span>${t('Continue to GD entry')}</span>${ic('arrow_forward')}</button>
+        </div>
+      </section>
+
+      <form id="ncr-form" class="form-surface" novalidate onsubmit="return false;">
+        ${formSection('01', 'NCR details', '', `
+          <div class="form-grid">
+            <div class="field"><label for="ncr-date">${t('Date')}</label><input class="axial-input" type="date" id="ncr-date" value="${esc(n.date)}" oninput="${on('date')}"></div>
+            <div class="field"><label for="ncr-time">${t('Time')}</label><input class="axial-input" type="time" id="ncr-time" value="${esc(n.time)}" oninput="${on('time')}"></div>
+          </div>
+          ${fieldWithMic(t('Accused details (if known)'), 'ncr-accused', n.accused, on('accused'), {minHeight:'72px'})}
+          ${fieldWithMic(t('Brief facts'), 'ncr-brief', ncrBriefFacts(c), on('briefFacts'), {minHeight:'120px'})}`)}
+        ${formSection('02', 'Entering officer', '', `
+          <div class="form-grid">
+            <div class="field"><label for="ncr-officer">${t('Officer Name')}</label><input class="axial-input" id="ncr-officer" value="${esc(off.name)}" oninput="${on('enteringOfficer')}"></div>
+            <div class="field"><label for="ncr-officer-rank">${t('Rank')}</label><input class="axial-input" id="ncr-officer-rank" value="${esc(off.rank)}" placeholder="e.g. Head Constable" oninput="${on('enteringOfficerRank')}"></div>
+            <div class="field span-2"><label for="ncr-action">${t('Action taken')}</label><input class="axial-input" id="ncr-action" value="${esc(n.actionTaken)}" oninput="${on('actionTaken')}"></div>
+          </div>`)}
+      </form>
+
+      <section class="quiet-panel">
+        <div class="quiet-panel-head">
+          <h2 class="quiet-panel-title">${t('Case details')}</h2>
+          <button type="button" class="axial-btn axial-btn--ghost axial-btn--sm" onclick="setTab('complaint')">${ic('edit')}<span>${t('Edit on Complaint tab')}</span></button>
+        </div>
+        <div class="quiet-panel-body">
+          <div class="fir-summary">
+            <div class="fir-summary-group">
+              <div class="fir-summary-title">${t('Complainant')}</div>
+              <dl class="fir-summary-dl">
+                ${row(t('Name'), p.complainantName)}
+                ${row(t('Address'), p.address)}
+              </dl>
+            </div>
+            <div class="fir-summary-group">
+              <div class="fir-summary-title">${t('Occurrence')}</div>
+              <dl class="fir-summary-dl">
+                ${row(t('Police station'), psName(p.policeStation))}
+                ${row(t('Place'), p.placeOfIncident)}
+                ${row(t('Date and time'), p.dateOfIncident ? shortDateTime(p.dateOfIncident, p.timeOfIncident) : '')}
+                <dt>${t('Sections')}</dt><dd><span class="sections-chips">${c.bns.sections.map(x=>`<span class="sc-var">${esc(sectionLabel(x.code))}</span>`).join(' ')}</span></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="split-doc" aria-label="${t('NCR preview')}">
+      <div class="doc-head">
+        <div class="doc-head-title">${ic('menu_book')}<span>${t('NCR preview')}</span></div>
+        <div class="doc-toolbar">
+          <button type="button" class="axial-btn axial-btn--outline axial-btn--sm" id="ncr-copy" onclick="copyNcrText('${c.id}')">${ic('content_copy')}<span>${t('Copy')}</span></button>
+          <button type="button" class="axial-btn axial-btn--outline axial-btn--sm" id="ncr-download" onclick="downloadNcr('${c.id}')">${ic('download')}<span>${t('Download')}</span></button>
+          <button type="button" class="axial-btn axial-btn--outline axial-btn--sm" id="ncr-print" onclick="printDocPage()">${ic('print')}<span>${t('Print')}</span></button>
+        </div>
+      </div>
+      ${ncrPreviewHtml(c)}
+    </aside>
+  </div>`;
 }
 
 /* ================= 6. GENERATE GD ENTRY ================= */
@@ -4300,6 +5108,20 @@ function gdCctnsText(c){
 }
 function gdCctnsTextEnglish(c){
   const p = c.complaint;
+  if(isNcr(c)) return `GENERAL DIARY ENTRY
+GD No: ${c.gd.number || '(to be entered after CCTNS upload)'}   Date: ${c.gd.date}   Time: ${c.gd.time}
+Police Station: ${p.policeStation}
+
+Complainant: ${p.complainantName}
+Brief: ${p.description ? p.description.slice(0,240) : 'Not recorded'}
+
+Report type: Non-cognizable report (NCR)
+NCR Number: ${c.ncr.number || '(pending CCTNS entry)'}
+BNS Section(s): ${c.bns.sections.map(s=>s.code).join(', ')}
+
+Action Taken: NCR recorded. ${NCR_FIXED_LINE}
+Senior Officer: ${gdSeniorOfficerText(c) || '(to be filled in)'}
+`;
   return `GENERAL DIARY ENTRY
 GD No: ${c.gd.number || '(to be entered after CCTNS upload)'}   Date: ${c.gd.date}   Time: ${c.gd.time}
 Police Station: ${p.policeStation}
@@ -4334,8 +5156,13 @@ function gdCctnsTextHindi(c){
   out += `GD प्रविष्टि संख्या: ${hiVal(c.gd.number)}\n`;
   out += `दिनांक: ${gdDate}\n`;
   out += `समय: ${gdTime}\n`;
-  out += `अपराध श्रेणी: ${catHi}\n`;
-  out += `अपराध उप-श्रेणी: ${subHi}\n`;
+  if(isNcr(c)){
+    out += `रिपोर्ट का प्रकार: असंज्ञेय अपराध रिपोर्ट (NCR)\n`;
+    out += `NCR संख्या: ${hiVal(c.ncr.number)}\n`;
+  } else {
+    out += `अपराध श्रेणी: ${catHi}\n`;
+    out += `अपराध उप-श्रेणी: ${subHi}\n`;
+  }
   out += `धारा: ${hiSections(c)}\n\n`;
   out += `GD प्रविष्टि\n\n`;
 
@@ -4354,13 +5181,16 @@ function gdCctnsTextHindi(c){
     out += `\n\n`;
   }
 
-  out += `प्राप्त शिकायत के आधार पर प्रकरण को ${catHi} एवं उप-श्रेणी ${subHi} के रूप में दर्ज किया गया तथा लागू BNS धाराओं का अधिकारी द्वारा चयन एवं सत्यापन किया गया।\n\n`;
+  if(isNcr(c)){
+    out += `प्राप्त शिकायत असंज्ञेय अपराध की पाई गई। लागू BNS धाराओं का अधिकारी द्वारा चयन एवं सत्यापन किया गया तथा थाना ${hiVal(p.policeStation)} में NCR संख्या ${hiVal(c.ncr.number)} दिनांक ${hiDate(c.ncr.date)} को दर्ज की गई। NCR का विवरण CCTNS में दर्ज किया गया।\n\n`;
+    out += `${NCR_FIXED_LINE_HI}\n\n`;
+  } else out += `प्राप्त शिकायत के आधार पर प्रकरण को ${catHi} एवं उप-श्रेणी ${subHi} के रूप में दर्ज किया गया तथा लागू BNS धाराओं का अधिकारी द्वारा चयन एवं सत्यापन किया गया।\n\n`;
 
-  if(c.fir.registered){
+  if(!isNcr(c) && c.fir.registered){
     out += `प्राप्त सूचना के आधार पर थाना ${hiVal(p.policeStation)} में FIR संख्या ${hiVal(c.fir.number)} दिनांक ${firDate} को ${firTime} पंजीकृत की गई। FIR का विवरण CCTNS में दर्ज किया गया। FIR की प्रति शिकायतकर्ता को नियमानुसार उपलब्ध कराई गई।\n\n`;
   }
 
-  if(c.io.name){
+  if(!isNcr(c) && c.io.name){
     out += `प्रकरण की विवेचना हेतु ${hiVal(c.io.rank)} ${hiVal(c.io.name)} को विवेचक नियुक्त किया गया। विवेचक को घटनास्थल का निरीक्षण करने, शिकायतकर्ता एवं गवाहों के बयान दर्ज करने, उपलब्ध CCTV फुटेज की जांच करने, आवश्यक साक्ष्य एकत्र करने तथा अन्य आवश्यक विवेचनात्मक कार्रवाई करने हेतु निर्देशित किया गया।\n\n`;
   }
 
@@ -4444,26 +5274,34 @@ function renderIoTab(c){
 
 /* ================= GD ENTRY ================= */
 function renderGdTab(c){
-  if(!c.fir.registered){
+  const ncr = isNcr(c);
+  if(ncr && !(c.ncrCctnsCopied || String(c.ncr.number||'').trim())){
+    return `<div class="page-head"><div><h1 class="page-title">${t('GD entry')}</h1></div></div>
+      ${banner('warning', `<span>${t('Prepare the NCR before the GD entry.')}</span><div class="banner-links"><button type="button" class="axial-btn axial-btn--outline axial-btn--sm" onclick="setTab('ncr')">${t('Go to NCR')}</button></div>`)}`;
+  }
+  if(!ncr && !c.fir.registered){
     return `<div class="page-head"><div><h1 class="page-title">${t('GD entry')}</h1></div></div>
       ${banner('warning', `<span>${t('Prepare the FIR before the GD entry.')}</span><div class="banner-links"><button type="button" class="axial-btn axial-btn--outline axial-btn--sm" onclick="setTab('fir')">${t('Go to FIR')}</button></div>`)}`;
   }
   if(!c.gd.generated){
     const p = c.complaint;
     return `
-    <div class="page-head"><div><h1 class="page-title">${t('GD entry')}</h1><p class="page-sub">${t('The GD entry will be prepared from the complaint and FIR information already recorded.')}</p></div></div>
+    <div class="page-head"><div><h1 class="page-title">${t('GD entry')}</h1><p class="page-sub">${t(ncr ? 'The GD entry will be prepared from the complaint and NCR information already recorded.' : 'The GD entry will be prepared from the complaint and FIR information already recorded.')}</p></div></div>
     <section class="task-card" style="max-width:760px;">
       <div class="task-head"><div><h2 class="task-title">${t('Prepare GD entry')}</h2><p class="task-sub">${t('It will include:')}</p></div></div>
       <div class="quiet-panel-body" style="padding:0 var(--axial-space-24) var(--axial-space-20);">
         <dl class="fir-summary-dl">
           <dt>${t('Complainant')}</dt><dd>${esc(p.complainantName)}</dd>
-          <dt>${t('FIR')}</dt><dd>${c.fir.number ? esc(c.fir.number) : `<span class="fir-soft">${t('CCTNS number pending')}</span>`}</dd>
-          <dt>${t('Offence')}</dt><dd>${esc(t(p.crimeSubCategory))} · ${esc(sectionsShort(c))}</dd>
+          ${ncr
+            ? `<dt>${t('NCR')}</dt><dd>${c.ncr.number ? esc(c.ncr.number) : `<span class="fir-soft">${t('CCTNS number pending')}</span>`}</dd>
+               <dt>${t('Offence')}</dt><dd>${esc(t('Non-cognizable'))} · ${esc(sectionsShort(c))}</dd>`
+            : `<dt>${t('FIR')}</dt><dd>${c.fir.number ? esc(c.fir.number) : `<span class="fir-soft">${t('CCTNS number pending')}</span>`}</dd>
+               <dt>${t('Offence')}</dt><dd>${esc(t(p.crimeSubCategory))} · ${esc(sectionsShort(c))}</dd>`}
           <dt>${t('Police station')}</dt><dd>${esc(psName(p.policeStation))}</dd>
         </dl>
       </div>
       <div class="task-foot">
-        <span class="caption">${t('You copy it into CCTNS next, as with the FIR.')}</span>
+        <span class="caption">${t(ncr ? 'You copy it into CCTNS next, as with the NCR.' : 'You copy it into CCTNS next, as with the FIR.')}</span>
         <button type="button" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" onclick="generateGd('${c.id}')"><span>${t('Prepare GD entry')}</span>${ic('arrow_forward')}</button>
       </div>
     </section>`;
@@ -4506,8 +5344,8 @@ function renderGdTab(c){
           </li>
         </ol>
         <div class="task-foot">
-          <span class="caption" id="gd-next-hint">${numbered ? t('Next: confirm the writer statement.') : t('Continue once CCTNS has given the GD number.')}</span>
-          <button type="button" id="gd-continue" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${numbered?'':'disabled'} onclick="saveAndContinue('${c.id}','gd')"><span>${t('Save & continue to Writer Statement')}</span>${ic('arrow_forward')}</button>
+          <span class="caption" id="gd-next-hint">${gdNextHint(c, numbered)}</span>
+          <button type="button" id="gd-continue" class="axial-btn axial-btn--primary axial-btn--md btn-arrow" ${numbered?'':'disabled'} onclick="${ncr ? `setTab('overview')` : `saveAndContinue('${c.id}','gd')`}"><span>${t(ncr ? 'Finish registration' : 'Save & continue to Writer Statement')}</span>${ic('arrow_forward')}</button>
         </div>
       </section>
     </div>
@@ -4524,13 +5362,17 @@ function renderGdTab(c){
     </aside>
   </div>`;
 }
+function gdNextHint(c, numbered){
+  if(!numbered) return t('Continue once CCTNS has given the GD number.');
+  return t(isNcr(c) ? 'NCR registration is complete.' : 'Next: confirm the writer statement.');
+}
 function syncGdTaskCard(c){
   const numbered = !!String(c.gd.number||'').trim(), copied = !!c.gdCctnsCopied;
   const step2 = document.getElementById('gd-step-2');
   if(step2){ step2.classList.toggle('is-done', numbered); step2.classList.toggle('is-current', !numbered && copied); }
   const mark = document.getElementById('gd-step-2-mark'); if(mark) mark.innerHTML = numbered ? ic('check') : '2';
   const btn = document.getElementById('gd-continue'); if(btn) btn.disabled = !numbered;
-  const hint = document.getElementById('gd-next-hint'); if(hint) hint.textContent = numbered ? t('Next: confirm the writer statement.') : t('Continue once CCTNS has given the GD number.');
+  const hint = document.getElementById('gd-next-hint'); if(hint) hint.textContent = gdNextHint(c, numbered);
   const pill = document.getElementById('gd-cctns-pill');
   if(pill){ pill.className = 'pill ' + (numbered ? 'pill--success' : 'pill--accent'); pill.innerHTML = numbered ? ic('check_circle')+t('In CCTNS') : ic('clock')+t('CCTNS pending'); }
 }
@@ -4737,13 +5579,13 @@ const STATEMENT_UPSTREAM = [
   {key:'complainantName', label:'Complainant name', tab:'complaint'},
   {key:'complaintDate', label:'Complaint date', tab:'complaint'},
   {key:'briefDescription', label:'Description of incident', tab:'complaint'},
-  {key:'crimeCategory', label:'Crime category', tab:'complaint'},
-  {key:'crimeSubCategory', label:'Crime sub-category', tab:'complaint'},
+  {key:'crimeCategory', label:'Crime category', tab:'category'},
+  {key:'crimeSubCategory', label:'Crime sub-category', tab:'category'},
   {key:'bnsSections', label:'BNS sections', tab:'bns'},
   {key:'firDate', label:'FIR registration', tab:'fir'},
   {key:'ioName', label:'Investigating officer', tab:'io'},
 ];
-const TAB_LABEL = { complaint:'Complaint', bns:'BNS sections', fir:'FIR', io:'Investigating officer', gd:'GD' };
+const TAB_LABEL = { complaint:'Complaint', category:'Category', bns:'BNS sections', fir:'FIR', io:'Investigating officer', gd:'GD' };
 function statementUpstreamMissing(c){
   const f = c.firStatement.fields;
   return STATEMENT_UPSTREAM.filter(u=>{
@@ -5771,6 +6613,8 @@ function buildSampleCase(spec){
     complaintDate: day, complaintTime: spec.complaintTime,
     dateOfIncident: sampleDay(incidentDaysAgo), registered: true
   });
+  setCaseClassification(c, 'FIR', '', c.createdAt, 'Duty Officer', true);
+  c.categoryConfirmed = true;
   const para = (fields, time) => { const p = addDiaryPara(c, fields); p.date = day; p.time = time; };
 
   if(spec.stage >= 2 && spec.bns){
